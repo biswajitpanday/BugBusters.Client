@@ -18,3 +18,20 @@ export type RegistrationRequestDto = {
     lastName: string;
     dateOfBirth: Date;
 }
+
+export type AuthResponse = {
+    token: string;
+    expiration: Date;
+    isActivated: boolean;
+    profile: UserProfile;
+}
+
+export type UserProfile = {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    dateOfBirth: Date;
+    phone: string;
+    address: string;
+    accountId: string;
+}
