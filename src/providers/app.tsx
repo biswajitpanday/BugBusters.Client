@@ -4,24 +4,31 @@ import { ErrorBoundary } from "react-error-boundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient } from "@/lib/ReactQuery";
-import { Button } from "@/components/elements/button";
 import { Spinner } from "@/components/elements/spinner";
 import { AuthLoader } from "@/lib/Auth";
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Button, Container } from "react-bootstrap";
+import { ExclamationTriangle } from "react-bootstrap-icons";
+import AuthPage from "@/pages/auth/AuthPage";
 
 const ErrorFallback = () => {
   return (
-    <div
-      className="text-red-500 w-screen h-screen flex flex-col justify-center items-center"
-      role="alert"
-    >
-      <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
-      <Button
-        className="mt-4"
-        onClick={() => window.location.assign(window.location.origin)}
-      >
-        Refresh
-      </Button>
+    <div className="d-flex align-items-center justify-content-center vh-100">
+      <Container className="text-center">
+        <ExclamationTriangle size={72} />
+        <h2 className="text-lg font-semibold mt-3">
+          <strong>Oops!</strong>
+        </h2>
+        <h3 className="">Something went wrong.</h3>
+        <Button
+          type="button"
+          variant="info"
+          className="mt-4 primary"
+          onClick={() => window.location.assign(window.location.origin)}
+        >
+          Refresh
+        </Button>
+      </Container>
     </div>
   );
 };
@@ -35,7 +42,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     <React.Suspense
       fallback={
         <div className="flex items-center justify-center w-screen h-screen">
-          <Spinner size="xl" />
+          <Spinner />
         </div>
       }
     >
@@ -45,9 +52,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             {process.env.NODE_ENV !== "test" && <ReactQueryDevtools />}
             <AuthLoader
               renderLoading={() => <Spinner />}
-              renderUnauthenticated={() => <h3>Login Page...</h3>}
+              renderUnauthenticated={() => <AuthPage />}
             >
-              <Router>{children}</Router>
+              <Container className="p-3">
+                <Router>{children}</Router>
+              </Container>
             </AuthLoader>
           </QueryClientProvider>
         </HelmetProvider>
