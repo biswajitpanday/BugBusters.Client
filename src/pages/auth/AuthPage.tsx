@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import "./Auth.Style.scss"
+import { LoginRequestDto } from "@/types/AuthTypes";
+import { useLogin } from "@/lib/Auth";
 
 const AuthPage = () => {
-  const [authMode, setAuthMode] = useState("signin")
+  const [authMode, setAuthMode] = useState("signin");
+  const [userCredentials, setUserCredentials] = useState({
+    email: "",
+    password: "",
+  });
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin")
   }
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setUserCredentials({ ...userCredentials, [name]: value });
+  };
+
   if (authMode === "signin") {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+      console.log("Email: " + userCredentials.email + " Password: " + userCredentials.password);
+      //const login = useLogin();
+      // console.log("Login : " + login());
+    };
   return (
     <div className="Auth-form-container">
         <form className="Auth-form">
@@ -23,9 +39,12 @@ const AuthPage = () => {
             <div className="form-group mt-3">
               <label>Email address</label>
               <input
-                type="email"
+                type="text"
                 className="form-control mt-1"
                 placeholder="Enter email"
+                name="email"
+                value={userCredentials.email}
+                onChange={handleChange}
               />
             </div>
             <div className="form-group mt-3">
@@ -34,10 +53,13 @@ const AuthPage = () => {
                 type="password"
                 className="form-control mt-1"
                 placeholder="Enter password"
+                name="password"
+                value={userCredentials.password}
+                onChange={handleChange}
               />
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                 Submit
               </button>
             </div>

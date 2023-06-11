@@ -1,22 +1,43 @@
 import { configureAuth } from 'react-query-auth';
-import { LoginRequestDto, RegistrationRequestDto } from "@/types/AuthTypes";
+import { AuthResponse, LoginRequestDto, RegistrationRequestDto } from "@/types/AuthTypes";
 import storage from '@/utils/storage';
+import { login, register } from '@/apis/AuthApi';
 
-async function loadUser() {
+function loadUser() {
+    if(storage.getToken()) {
+        const userProfile = storage.getUserProfile();
+        return userProfile;
+    }
     return null;
 }
 
 async function loginFn(data: LoginRequestDto) {
-    return null;
+    const response = await login(data);
+    const user = await handleResponse(response);
+    return user;
 }
 
 async function logoutFn() {
-    storage.clearToken();
+    storage.clearStorage();
     window.location.assign(window.location.origin as unknown as string);
 }
 
 async function registerFn(data: RegistrationRequestDto) {
-    return null;
+    const response = await register(data);
+    const user = await handleResponse(response);
+    return user;
+}
+
+async function handleResponse(data: AuthResponse) {
+    const {token, expiration, isActivated, profile} = data;
+    if(!isActivated) {
+        storage.clearStorage();
+        return null;
+    }
+    storage.setToken(token);
+    storage.set('expiration', JSON.stringify(expiration));
+    storage.setUserProfile(JSON.stringify(profile));
+    return profile;
 }
 
 export const {useUser, useLogin, useRegister, useLogout, AuthLoader} = configureAuth({
