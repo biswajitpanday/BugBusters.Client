@@ -22,8 +22,6 @@ const AuthPage = () => {
   if (authMode === "signin") {
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
       console.log("Email: " + userCredentials.email + " Password: " + userCredentials.password);
-      //const login = useLogin();
-      // console.log("Login : " + login());
     };
   return (
     <div className="Auth-form-container">
