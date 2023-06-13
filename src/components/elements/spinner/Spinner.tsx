@@ -1,0 +1,29 @@
+import { PuffLoader, ScaleLoader } from "react-spinners";
+import "./Spinner.style.scss";
+
+const types = {
+  page: "page",
+  component: "component",
+};
+
+export type SpinnerProps = {
+  type?: keyof typeof types;
+  size?: number;
+  color?: string;
+};
+
+export const Spinner = ({
+  type = "page",
+  size = 60,
+  color = "#36d7b7"
+}: SpinnerProps) => {
+  return (
+    <div className="spinner d-flex align-items-center justify-content-center vh-100">
+      {type === types.page ? (
+        <PuffLoader className="loader-container" color={color} loading size={size} speedMultiplier={2} />
+      ) : (
+        <ScaleLoader color={color} />
+      )}
+    </div>
+  );
+};
