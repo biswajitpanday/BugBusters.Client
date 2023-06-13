@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./Auth.Style.scss";
 import { LoginDto, RegistrationDto } from "@/types/AuthTypes";
 import { useLogin, useRegister } from "@/lib/Auth";
@@ -35,11 +35,7 @@ const AuthPage = () => {
       setLoginCredentials({ ...loginCredentials, [name]: value });
     };
     const handleLoginSubmit = async (e: { preventDefault: () => void }) => {
-      const loginDto: LoginDto = {
-        email: loginCredentials.email,
-        password: loginCredentials.password,
-      };
-      login.mutateAsync(loginDto);
+      login.mutateAsync({...loginCredentials});
     };
     return (
       <div className="Auth-form-container">

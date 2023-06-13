@@ -2,6 +2,7 @@ import { configureAuth } from 'react-query-auth';
 import { AuthResponse, LoginDto, RegistrationDto } from "@/types/AuthTypes";
 import storage from '@/utils/storage';
 import { login, register } from '@/apis/AuthApi';
+import { queryClient } from './ReactQuery';
 
 function loadUser() {
     if(storage.getToken()) {
@@ -14,11 +15,13 @@ function loadUser() {
 async function loginFn(data: LoginDto) {
     const response = await login(data);
     const user = await handleResponse(response);
+    queryClient.setQueryData(['authenticated-user'], user);
     return user;
 }
 
 async function logoutFn() {
     storage.clearStorage();
+    queryClient.setQueryData(['authenticated-user'], null);
     window.location.assign(window.location.origin as unknown as string);
 }
 
