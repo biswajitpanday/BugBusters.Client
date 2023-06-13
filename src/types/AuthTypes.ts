@@ -19,6 +19,8 @@ export type RegistrationRequestDto = {
     middleName?: string;
     lastName?: string;
     dateOfBirth?: Date;
+    address?: string;
+    phone: string;
 }
 
 export type AuthResponse = {

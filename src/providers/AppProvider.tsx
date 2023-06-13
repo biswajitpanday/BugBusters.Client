@@ -44,14 +44,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             {process.env.NODE_ENV !== "test" && <ReactQueryDevtools />}
-            <AuthLoader
-              renderLoading={() => <Spinner />}
-              renderUnauthenticated={() => <Router><AuthPage /></Router>}
-            >
-              <Container className="p-3">
-                <Router>{children}</Router>
-              </Container>
-            </AuthLoader>
+            <Router>
+              <AuthLoader
+                renderLoading={() => <Spinner />}
+                renderUnauthenticated={() => <AuthPage />}
+              >
+                <Container className="p-3">{children}</Container>
+              </AuthLoader>
+            </Router>
           </QueryClientProvider>
         </HelmetProvider>
       </ErrorBoundary>
