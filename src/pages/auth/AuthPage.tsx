@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState } from "react";
 import "./Auth.Style.scss";
 import { LoginRequestDto, RegistrationRequestDto } from "@/types/AuthTypes";
 import { useLogin, useRegister } from "@/lib/Auth";
+import { toast } from "react-toastify";
 
 const AuthPage = () => {
   const [authMode, setAuthMode] = useState("signin");
@@ -82,7 +83,9 @@ const AuthPage = () => {
                 Submit
               </button>
             </div>
-            <p className="text-center mt-2">
+            <p className="text-center mt-2" onClick={() =>{
+              toast("I use a custom id");
+            }}>
               Forgot <a href="#">password?</a>
             </p>
           </div>
