@@ -46,7 +46,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             {process.env.NODE_ENV !== "test" && <ReactQueryDevtools />}
             <AuthLoader
               renderLoading={() => <Spinner />}
-              renderUnauthenticated={() => <AuthPage />}
+              renderUnauthenticated={() => <Router><AuthPage /></Router>}
             >
               <Container className="p-3">
                 <Router>{children}</Router>
