@@ -2,19 +2,19 @@ import { apiLogin, apiRefreshToken, apiRegister } from "@/constant";
 import { axios } from "@/lib/AxiosInterceptor";
 import {
   AuthResponse,
-  LoginRequestDto,
-  RegistrationRequestDto,
+  LoginDto,
+  RegistrationDto,
 } from "@/types/AuthTypes";
 
 export const login = async (
-  request: LoginRequestDto
+  request: LoginDto
 ): Promise<AuthResponse> => {
   const body = JSON.stringify(request);
   return await axios.post(apiLogin, body);
 };
 
 export const register = async (
-  request: RegistrationRequestDto
+  request: RegistrationDto
 ): Promise<AuthResponse> => {
   const body = JSON.stringify(request);
   return await axios.post(apiRegister, body);
