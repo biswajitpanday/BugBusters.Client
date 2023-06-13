@@ -14,9 +14,11 @@ export type LoginRequestDto = {
 export type RegistrationRequestDto = {
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
-    dateOfBirth: Date;
+    userName: string;
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
+    dateOfBirth?: Date;
 }
 
 export type AuthResponse = {
