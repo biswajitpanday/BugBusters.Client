@@ -6,12 +6,12 @@ export type AuthUser = {
     role: 'Admin' | 'User';
 }
 
-export type LoginRequestDto = {
+export type LoginDto = {
     email: string;
     password: string;
 };
 
-export type RegistrationRequestDto = {
+export type RegistrationDto = {
     email: string;
     password: string;
     userName: string;

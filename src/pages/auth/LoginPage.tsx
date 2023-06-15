@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import "./Auth.Style.scss";
-import { LoginRequestDto } from "@/types/AuthTypes";
+import { LoginDto } from "@/types/AuthTypes";
 import { useLogin } from "@/lib/Auth";
 import { Link } from "react-router-dom";
 import { SIGNUP } from "@/constant";
 
 const LoginPage = () => {
-  const [loginCredentials, setLoginCredentials] = useState<LoginRequestDto>({
+  const [loginCredentials, setLoginCredentials] = useState<LoginDto>({
     email: "",
     password: "",
   });

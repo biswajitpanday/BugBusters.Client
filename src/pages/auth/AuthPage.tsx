@@ -1,18 +1,18 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./Auth.Style.scss";
-import { LoginRequestDto, RegistrationRequestDto } from "@/types/AuthTypes";
+import { LoginDto, RegistrationDto } from "@/types/AuthTypes";
 import { useLogin, useRegister } from "@/lib/Auth";
 import { toast } from "react-toastify";
 
 const AuthPage = () => {
   const [authMode, setAuthMode] = useState("signin");
-  const [loginCredentials, setLoginCredentials] = useState<LoginRequestDto>({
+  const [loginCredentials, setLoginCredentials] = useState<LoginDto>({
     email: "",
     password: "",
   });
   const login = useLogin();
 
-  const [registerCredentials, setRegisterCredentials] = useState<RegistrationRequestDto>({
+  const [registerCredentials, setRegisterCredentials] = useState<RegistrationDto>({
     firstName: "",
     middleName: "",
     lastName: "",
@@ -35,11 +35,7 @@ const AuthPage = () => {
       setLoginCredentials({ ...loginCredentials, [name]: value });
     };
     const handleLoginSubmit = async (e: { preventDefault: () => void }) => {
-      const loginRequestDto: LoginRequestDto = {
-        email: loginCredentials.email,
-        password: loginCredentials.password,
-      };
-      login.mutateAsync(loginRequestDto);
+      login.mutateAsync({...loginCredentials});
     };
     return (
       <div className="Auth-form-container">

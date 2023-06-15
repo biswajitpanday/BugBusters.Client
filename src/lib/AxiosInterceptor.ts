@@ -1,6 +1,7 @@
 import { API_URL } from "@/config";
 import storage from "@/utils/storage";
 import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
+import { toast } from "react-toastify";
 
 function axiosInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken();
@@ -21,7 +22,7 @@ axios.interceptors.response.use(
   (error) => {
     const message = error.response?.data?.message || error.message;
     console.log(message);
-    // @todo: Show Error Notification/Alert/Toastr
+    toast(message);
     return Promise.reject(error);
   }
 );

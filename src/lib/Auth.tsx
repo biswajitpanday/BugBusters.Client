@@ -1,7 +1,8 @@
 import { configureAuth } from 'react-query-auth';
-import { AuthResponse, LoginRequestDto, RegistrationRequestDto } from "@/types/AuthTypes";
+import { AuthResponse, LoginDto, RegistrationDto } from "@/types/AuthTypes";
 import storage from '@/utils/storage';
 import { login, register } from '@/apis/AuthApi';
+import { queryClient } from './ReactQuery';
 
 function loadUser() {
     if(storage.getToken()) {
@@ -11,18 +12,20 @@ function loadUser() {
     return null;
 }
 
-async function loginFn(data: LoginRequestDto) {
+async function loginFn(data: LoginDto) {
     const response = await login(data);
     const user = await handleResponse(response);
+    queryClient.setQueryData(['authenticated-user'], user);
     return user;
 }
 
 async function logoutFn() {
     storage.clearStorage();
+    queryClient.setQueryData(['authenticated-user'], null);
     window.location.assign(window.location.origin as unknown as string);
 }
 
-async function registerFn(data: RegistrationRequestDto) {
+async function registerFn(data: RegistrationDto) {
     const response = await register(data);
     const user = await handleResponse(response);
     return user;
@@ -42,7 +45,7 @@ async function handleResponse(data: AuthResponse) {
 
 export const {useUser, useLogin, useRegister, useLogout, AuthLoader} = configureAuth({
     userFn: async () => await loadUser(),
-    loginFn: async (data: LoginRequestDto) => await loginFn(data),
+    loginFn: async (data: LoginDto) => await loginFn(data),
     logoutFn: () => logoutFn(),
-    registerFn: async (data: RegistrationRequestDto) => registerFn(data)
+    registerFn: async (data: RegistrationDto) => registerFn(data)
 })

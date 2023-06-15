@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import "./Auth.Style.scss";
-import { RegistrationRequestDto } from "@/types/AuthTypes";
+import { RegistrationDto } from "@/types/AuthTypes";
 import { useRegister } from "@/lib/Auth";
 import { Link } from "react-router-dom";
 import { LOGIN } from "@/constant";
 
 const RegistrationPage = () => {
-  const [registerCredentials, setRegisterCredentials] = useState<RegistrationRequestDto>({
+  const [registerCredentials, setRegisterCredentials] = useState<RegistrationDto>({
     firstName: "",
     middleName: "",
     lastName: "",

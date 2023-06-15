@@ -1,20 +1,14 @@
 import { apiLogin, apiRefreshToken, apiRegister } from "@/constant";
 import { axios } from "@/lib/AxiosInterceptor";
-import {
-  AuthResponse,
-  LoginRequestDto,
-  RegistrationRequestDto,
-} from "@/types/AuthTypes";
+import { AuthResponse, LoginDto, RegistrationDto } from "@/types";
 
-export const login = async (
-  request: LoginRequestDto
-): Promise<AuthResponse> => {
+export const login = async (request: LoginDto): Promise<AuthResponse> => {
   const body = JSON.stringify(request);
   return await axios.post(apiLogin, body);
 };
 
 export const register = async (
-  request: RegistrationRequestDto
+  request: RegistrationDto
 ): Promise<AuthResponse> => {
   const body = JSON.stringify(request);
   return await axios.post(apiRegister, body);
