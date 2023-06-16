@@ -1,3 +1,5 @@
+import { StorageConstant } from "@/constant";
+
 const keyPrefix = 'BugBuster_';
 
 const storage = {
@@ -15,25 +17,25 @@ const storage = {
 
     // #region Token
     getToken: () => {
-        return JSON.parse(window.localStorage.getItem(`${keyPrefix}token`) as string);
+        return JSON.parse(window.localStorage.getItem(StorageConstant.Token()) as string);
     },
     setToken: (token: string) => {
-        window.localStorage.setItem(`${keyPrefix}token`, JSON.stringify(token));
+        window.localStorage.setItem(StorageConstant.Token(), JSON.stringify(token));
     },
     clearToken: () => {
-        window.localStorage.removeItem(`${keyPrefix}token`);
+        window.localStorage.removeItem(StorageConstant.Token());
     },
     // #endregion
 
     // #region UserProfile
     getUserProfile: () => {
-        return JSON.parse(window.localStorage.getItem(`${keyPrefix}user_profile`) as string)
+        return JSON.parse(window.localStorage.getItem(StorageConstant.UserProfile()) as string)
     },
     setUserProfile: (userProfile: string) => {
-        window.localStorage.setItem(`${keyPrefix}user_profile`, JSON.stringify(userProfile));
+        window.localStorage.setItem(StorageConstant.UserProfile(), JSON.stringify(userProfile));
     },
     clearUserProfile: () => {
-        window.localStorage.removeItem(`${keyPrefix}user_profile`);
+        window.localStorage.removeItem(StorageConstant.UserProfile());
     },
     // #endregion
 

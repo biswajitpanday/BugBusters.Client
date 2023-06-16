@@ -1,10 +1,12 @@
+import { Roles } from "./RoleTypes";
+
 export type AuthUser = {
     id: string;
     email: string;
     firstName: string;
     lastName: string;
-    role: 'Admin' | 'User';
-}
+    role: 'ADMIN' | 'USER';
+};
 
 export type LoginDto = {
     email: string;
@@ -21,13 +23,17 @@ export type RegistrationDto = {
     dateOfBirth?: Date;
     address?: string;
     phone: string;
-}
+};
 
 export type AuthResponse = {
     token: string;
-    expiration: Date;
     isActivated: boolean;
     profile: UserProfile;
+};
+
+export type TokenDto = {
+    exp: string;
+    role: keyof typeof Roles
 }
 
 export type UserProfile = {
@@ -38,4 +44,5 @@ export type UserProfile = {
     phone: string;
     address: string;
     accountId: string;
-}
+    role: keyof typeof Roles;
+};
