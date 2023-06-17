@@ -63,7 +63,7 @@ const LoginPage = () => {
               </button>
             </div>
             <p className="text-center mt-2">
-              Forgot <a href="#">password?</a>
+              Forgot <Link to="#">password?</Link>
             </p>
           </div>
         </form>
