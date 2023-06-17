@@ -1,13 +1,5 @@
 import { Roles } from "./RoleTypes";
 
-export type AuthUser = {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: 'ADMIN' | 'USER';
-};
-
 export type LoginDto = {
     email: string;
     password: string;
@@ -28,12 +20,15 @@ export type RegistrationDto = {
 export type AuthResponse = {
     token: string;
     isActivated: boolean;
+    role: keyof typeof Roles,
     profile: UserProfile;
 };
 
 export type TokenDto = {
     exp: string;
-    role: keyof typeof Roles
+    iss: string;
+    aud: string;
+    jti: string;
 }
 
 export type UserProfile = {

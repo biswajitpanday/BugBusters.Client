@@ -39,12 +39,13 @@ async function registerFn(data: RegistrationDto) {
 }
 
 async function handleResponse(data: AuthResponse) {
-  const { token, isActivated, profile } = data;
+  const { token, isActivated, profile, role } = data;
   if (!isActivated) {
     storage.clearStorage();
     return null;
   }
   const { exp } = jwtDecode<TokenDto>(token);
+  profile.role = role;
   storage.setToken(token);
   storage.set(StorageConstant.TokenExpiration(), JSON.stringify(exp));
   storage.setUserProfile(JSON.stringify(profile));
