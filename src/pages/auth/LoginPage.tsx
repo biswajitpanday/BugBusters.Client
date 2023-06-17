@@ -3,7 +3,7 @@ import "./Auth.Style.scss";
 import { LoginDto } from "@/types/AuthTypes";
 import { useLogin } from "@/lib/Auth";
 import { Link } from "react-router-dom";
-import { SIGNUP } from "@/constant";
+import { AppRouteConstant } from "@/constant";
 
 const LoginPage = () => {
   const [loginCredentials, setLoginCredentials] = useState<LoginDto>({
@@ -27,7 +27,7 @@ const LoginPage = () => {
             <h3 className="Auth-form-title">Sign In</h3>
             <div className="text-center">
               Not registered yet?{" "}
-              <Link className="link-primary" to={SIGNUP}>
+              <Link className="link-primary" to={AppRouteConstant.Registration()}>
                 Sign Up
               </Link>
             </div>
