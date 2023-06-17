@@ -10,6 +10,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Button, Container } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 import AuthPage from "@/pages/auth/AuthPage";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ErrorFallback = () => {
   return (
@@ -44,14 +46,15 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             {process.env.NODE_ENV !== "test" && <ReactQueryDevtools />}
-            <AuthLoader
-              renderLoading={() => <Spinner />}
-              renderUnauthenticated={() => <Router><AuthPage /></Router>}
-            >
-              <Container className="p-3">
-                <Router>{children}</Router>
-              </Container>
-            </AuthLoader>
+            <ToastContainer theme="dark" limit={5} />
+            <Router>
+              <AuthLoader
+                renderLoading={() => <Spinner />}
+                renderUnauthenticated={() => <AuthPage />}
+              >
+                <Container className="p-3">{children}</Container>
+              </AuthLoader>
+            </Router>
           </QueryClientProvider>
         </HelmetProvider>
       </ErrorBoundary>

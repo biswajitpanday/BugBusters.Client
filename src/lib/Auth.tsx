@@ -1,48 +1,62 @@
-import { configureAuth } from 'react-query-auth';
-import { AuthResponse, LoginRequestDto, RegistrationRequestDto } from "@/types/AuthTypes";
-import storage from '@/utils/storage';
-import { login, register } from '@/apis/AuthApi';
+import { configureAuth } from "react-query-auth";
+import {
+  AuthResponse,
+  LoginDto,
+  RegistrationDto,
+  TokenDto,
+  UserProfile,
+} from "@/types/AuthTypes";
+import storage from "@/utils/storage";
+import { login, register } from "@/apis/AuthApi";
+import { queryClient } from "./ReactQuery";
+import jwtDecode from "jwt-decode";
+import { StorageConstant } from "@/constant";
 
-function loadUser() {
-    if(storage.getToken()) {
-        const userProfile = storage.getUserProfile();
-        return userProfile;
-    }
-    return null;
+function loadUser(): UserProfile | null {
+  if (storage.getToken()) {
+    const userProfile = storage.getUserProfile() as UserProfile;
+    return userProfile;
+  }
+  return null;
 }
 
-async function loginFn(data: LoginRequestDto) {
-    const response = await login(data);
-    const user = await handleResponse(response);
-    return user;
+async function loginFn(data: LoginDto) {
+  const response = await login(data);
+  const user = await handleResponse(response);
+  return user;
 }
 
 async function logoutFn() {
-    storage.clearStorage();
-    window.location.assign(window.location.origin as unknown as string);
+  storage.clearStorage();
+  queryClient.setQueryData(["authenticated-user"], null);
+  window.location.assign(window.location.origin as unknown as string);
 }
 
-async function registerFn(data: RegistrationRequestDto) {
-    const response = await register(data);
-    const user = await handleResponse(response);
-    return user;
+async function registerFn(data: RegistrationDto) {
+  const response = await register(data);
+  const user = await handleResponse(response);
+  return user;
 }
 
 async function handleResponse(data: AuthResponse) {
-    const {token, expiration, isActivated, profile} = data;
-    if(!isActivated) {
-        storage.clearStorage();
-        return null;
-    }
-    storage.setToken(token);
-    storage.set('expiration', JSON.stringify(expiration));
-    storage.setUserProfile(JSON.stringify(profile));
-    return profile;
+  const { token, isActivated, profile, role } = data;
+  if (!isActivated) {
+    storage.clearStorage();
+    return null;
+  }
+  const { exp } = jwtDecode<TokenDto>(token);
+  profile.role = role;
+  storage.setToken(token);
+  storage.set(StorageConstant.TokenExpiration(), JSON.stringify(exp));
+  storage.setUserProfile(JSON.stringify(profile));
+  queryClient.setQueryData(["authenticated-user"], data);
+  return profile;
 }
 
-export const {useUser, useLogin, useRegister, useLogout, AuthLoader} = configureAuth({
-    userFn: async () => await loadUser(),
-    loginFn: async (data: LoginRequestDto) => await loginFn(data),
+export const { useUser, useLogin, useRegister, useLogout, AuthLoader } =
+  configureAuth({
+    userFn: () => loadUser(),
+    loginFn: async (data: LoginDto) => await loginFn(data),
     logoutFn: () => logoutFn(),
-    registerFn: async (data: RegistrationRequestDto) => registerFn(data)
-})
+    registerFn: async (data: RegistrationDto) => registerFn(data),
+  });

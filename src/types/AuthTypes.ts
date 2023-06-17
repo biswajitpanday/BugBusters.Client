@@ -1,17 +1,11 @@
-export type AuthUser = {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: 'Admin' | 'User';
-}
+import { Roles } from "./RoleTypes";
 
-export type LoginRequestDto = {
+export type LoginDto = {
     email: string;
     password: string;
 };
 
-export type RegistrationRequestDto = {
+export type RegistrationDto = {
     email: string;
     password: string;
     userName: string;
@@ -19,13 +13,22 @@ export type RegistrationRequestDto = {
     middleName?: string;
     lastName?: string;
     dateOfBirth?: Date;
-}
+    address?: string;
+    phone: string;
+};
 
 export type AuthResponse = {
     token: string;
-    expiration: Date;
     isActivated: boolean;
+    role: keyof typeof Roles,
     profile: UserProfile;
+};
+
+export type TokenDto = {
+    exp: string;
+    iss: string;
+    aud: string;
+    jti: string;
 }
 
 export type UserProfile = {
@@ -36,4 +39,5 @@ export type UserProfile = {
     phone: string;
     address: string;
     accountId: string;
-}
+    role: keyof typeof Roles;
+};

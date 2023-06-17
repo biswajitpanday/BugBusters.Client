@@ -1,42 +1,30 @@
 import { ChangeEvent, useState } from "react";
 import "./Auth.Style.scss";
-import { RegistrationRequestDto } from "@/types/AuthTypes";
+import { RegistrationDto } from "@/types/AuthTypes";
 import { useRegister } from "@/lib/Auth";
 import { Link } from "react-router-dom";
-import { LOGIN } from "@/constant";
+import { AppRouteConstant } from "@/constant";
 
 const RegistrationPage = () => {
-  const [registrationCredentials, setRegistrationCredentials] = useState({
-    email: "",
-    password: "",
+  const [registerCredentials, setRegisterCredentials] = useState<RegistrationDto>({
     firstName: "",
     middleName: "",
     lastName: "",
     userName: "",
+    email: "",
+    password: "",
     dateOfBirth: new Date(),
+    phone: "",
+    address: ""
   });
   const registration = useRegister();
 
-  //   const changeAuthMode = () => {
-  //     setAuthMode(authMode === "signin" ? "signup" : "signin")
-  //   }
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setRegistrationCredentials({ ...registrationCredentials, [name]: value });
+    setRegisterCredentials({ ...registerCredentials, [name]: value });
   };
-
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    const registrationRequestDto: RegistrationRequestDto = {
-      email: registrationCredentials.email,
-      password: registrationCredentials.password,
-      firstName: registrationCredentials.firstName,
-      middleName: registrationCredentials.middleName,
-      lastName: registrationCredentials.lastName,
-      userName: registrationCredentials.userName,
-      dateOfBirth: registrationCredentials.dateOfBirth
-    };
-    registration.mutate(registrationRequestDto);
+    registration.mutate({...registerCredentials});
   };
 
   return (
@@ -46,22 +34,63 @@ const RegistrationPage = () => {
           <h3 className="Auth-form-title">Sign In</h3>
           <div className="text-center">
             Already registered?{" "}
-            <Link to={LOGIN} className="link-primary">Sign In</Link>
+            <Link className="link-primary" to={AppRouteConstant.Login()}>
+              Sign In
+            </Link>
           </div>
-          <div className="form-group mt-3">
-            <label>Full Name</label>
+          {/* <div className="form-group mt-3">
+            <label>First Name</label>
             <input
-              type="email"
+              type="text"
               className="form-control mt-1"
               placeholder="e.g Jane Doe"
+              name="firstName"
+              value={registerCredentials?.firstName}
+              onChange={handleChange}
             />
           </div>
+          <div className="form-group mt-3">
+            <label>Middle Name</label>
+            <input
+              type="text"
+              className="form-control mt-1"
+              placeholder="e.g Jane Doe"
+              name="middleName"
+              value={registerCredentials?.middleName}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group mt-3">
+            <label>Last Name</label>
+            <input
+              type="text"
+              className="form-control mt-1"
+              placeholder="e.g Jane Doe"
+              name="lastName"
+              value={registerCredentials?.lastName}
+              onChange={handleChange}
+            />
+          </div> */}
           <div className="form-group mt-3">
             <label>Email address</label>
             <input
               type="email"
               className="form-control mt-1"
               placeholder="Email Address"
+              name="email"
+              value={registerCredentials.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group mt-3">
+            <label>Username</label>
+            <input
+              type="text"
+              className="form-control mt-1"
+              placeholder="e.g janedoe007"
+              name="userName"
+              value={registerCredentials.userName}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group mt-3">
@@ -70,10 +99,13 @@ const RegistrationPage = () => {
               type="password"
               className="form-control mt-1"
               placeholder="Password"
+              name="password"
+              value={registerCredentials.password}
+              onChange={handleChange}
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
               Submit
             </button>
           </div>
