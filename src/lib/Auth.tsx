@@ -1,6 +1,6 @@
 import { configureAuth } from "react-query-auth";
 import {
-  AuthResponse,
+  AuthResponseDto,
   LoginDto,
   RegistrationDto,
   TokenDto,
@@ -38,7 +38,7 @@ async function registerFn(data: RegistrationDto) {
   return user;
 }
 
-async function handleResponse(data: AuthResponse) {
+async function handleResponse(data: AuthResponseDto) {
   const { token, isActivated, profile, role } = data;
   if (!isActivated) {
     storage.clearStorage();
