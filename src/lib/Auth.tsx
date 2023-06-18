@@ -6,7 +6,7 @@ import {
   TokenDto,
   UserProfile,
 } from "@/types/AuthTypes";
-import storage from "@/utils/storage";
+import storage from "@/utils/Storage";
 import { login, register } from "@/apis/AuthApi";
 import { queryClient } from "./ReactQuery";
 import jwtDecode from "jwt-decode";

@@ -1,5 +1,5 @@
 import { API_URL } from "@/config";
-import storage from "@/utils/storage";
+import storage from "@/utils/Storage";
 import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
 
