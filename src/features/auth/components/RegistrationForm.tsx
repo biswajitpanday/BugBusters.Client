@@ -1,11 +1,11 @@
 import { ChangeEvent, useState } from "react";
-import "./Auth.Style.scss";
 import { RegistrationDto } from "@/types/AuthTypes";
 import { useRegister } from "@/lib/Auth";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
+import "./Auth.Style.scss";
 
-const RegistrationPage = () => {
+export const RegistrationForm = () => {
   const [registerCredentials, setRegisterCredentials] = useState<RegistrationDto>({
     firstName: "",
     middleName: "",
@@ -110,12 +110,10 @@ const RegistrationPage = () => {
             </button>
           </div>
           <p className="text-center mt-2">
-            Forgot <a href="#">password?</a>
+            Forgot <Link to="#">password?</Link>
           </p>
         </div>
       </form>
     </div>
   );
 };
-
-export default RegistrationPage;

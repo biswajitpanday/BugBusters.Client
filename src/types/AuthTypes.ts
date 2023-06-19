@@ -1,3 +1,4 @@
+import { BaseResponse } from "./BaseResponse";
 import { Roles } from "./RoleTypes";
 
 export type LoginDto = {
@@ -17,7 +18,7 @@ export type RegistrationDto = {
     phone: string;
 };
 
-export type AuthResponse = {
+export type AuthResponseDto = {
     token: string;
     isActivated: boolean;
     role: keyof typeof Roles,
@@ -40,4 +41,4 @@ export type UserProfile = {
     address: string;
     accountId: string;
     role: keyof typeof Roles;
-};
+} & BaseResponse;
