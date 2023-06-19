@@ -1,13 +1,10 @@
-import { Answer } from ".";
+import { AnswerResponse, BaseResponse } from ".";
 
 export type QuestionResponse = {
-    id: string;
     title: string;
     body: string;
-    createdAt: Date;
-    lastUpdated: Date;
-    answers: Answer;
-}
+    answers: AnswerResponse;
+} & BaseResponse;
 
 export type QuestionCreateDto = {
     title: string;

@@ -74,6 +74,7 @@ const AuthPage = () => {
               <button
                 type="button"
                 className="btn btn-primary"
+                disabled={login.isLoading}
                 onClick={handleLoginSubmit}
               >
                 Submit
@@ -175,7 +176,7 @@ const AuthPage = () => {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary" onClick={handleRegisterSubmit}>
+            <button type="submit" className="btn btn-primary" disabled={register.isLoading} onClick={handleRegisterSubmit}>
               Submit
             </button>
           </div>

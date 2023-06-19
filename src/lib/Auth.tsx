@@ -1,12 +1,12 @@
 import { configureAuth } from "react-query-auth";
 import {
-  AuthResponse,
+  AuthResponseDto,
   LoginDto,
   RegistrationDto,
   TokenDto,
   UserProfile,
 } from "@/types/AuthTypes";
-import storage from "@/utils/storage";
+import storage from "@/utils/Storage";
 import { login, register } from "@/apis/AuthApi";
 import { queryClient } from "./ReactQuery";
 import jwtDecode from "jwt-decode";
@@ -38,7 +38,7 @@ async function registerFn(data: RegistrationDto) {
   return user;
 }
 
-async function handleResponse(data: AuthResponse) {
+async function handleResponse(data: AuthResponseDto) {
   const { token, isActivated, profile, role } = data;
   if (!isActivated) {
     storage.clearStorage();

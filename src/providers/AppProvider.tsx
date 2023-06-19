@@ -41,11 +41,11 @@ type AppProviderProps = {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
-    <React.Suspense fallback={<Spinner />}>
+    <React.Suspense fallback={<Spinner size={100} />}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
-            {process.env.NODE_ENV !== "test" && <ReactQueryDevtools />}
+            {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
             <ToastContainer theme="dark" limit={5} />
             <Router>
               <AuthLoader

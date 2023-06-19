@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useUser } from "./Auth";
-import { Roles } from "@/types/RoleTypes";
-
+import { Roles } from "@/types";
 
 
 const useAuthorization = () => {
