@@ -6,9 +6,9 @@ const types = {
   component: "component",
 };
 
-export type SpinnerProps = {
+export type SpinnerProps  = {
   type?: keyof typeof types;
-  size?: number;
+  size?: number | string;
   color?: string;
 };
 
@@ -17,12 +17,13 @@ export const Spinner = ({
   size = 60,
   color = "#36d7b7"
 }: SpinnerProps) => {
+  console.log("Spinner Component Loaded...");
   return (
     <div className="spinner d-flex align-items-center justify-content-center vh-100">
       {type === types.page ? (
-        <PuffLoader className="loader-container" color={color} loading size={size} speedMultiplier={2} />
+        <PuffLoader className="loader-container" color={color} loading size={size} speedMultiplier={2} placeholder="Loading..." />
       ) : (
-        <ScaleLoader color={color} />
+        <ScaleLoader color={color} placeholder="Loading..." />
       )}
     </div>
   );
