@@ -4,14 +4,13 @@ import { ErrorBoundary } from "react-error-boundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient } from "@/lib/ReactQuery";
-import { Spinner } from "@/components/elements/spinner";
 import { AuthLoader } from "@/lib/Auth";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Button, Container } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
-import AuthPage from "@/pages/auth/AuthPage";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "@/components/elements/spinner";
 
 const ErrorFallback = () => {
   return (
@@ -41,20 +40,15 @@ type AppProviderProps = {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
-    <React.Suspense fallback={<Spinner size={100} />}>
+    <React.Suspense fallback={<Spinner />}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
             <ToastContainer theme="dark" limit={5} />
-            <Router>
-              <AuthLoader
-                renderLoading={() => <Spinner />}
-                renderUnauthenticated={() => <AuthPage />}
-              >
-                <Container className="p-3">{children}</Container>
-              </AuthLoader>
-            </Router>
+            <AuthLoader renderLoading={() => <Spinner />}> {/* renderUnauthenticated={() => <AuthPage />} */}
+              <Router>{children}</Router>
+            </AuthLoader>
           </QueryClientProvider>
         </HelmetProvider>
       </ErrorBoundary>
