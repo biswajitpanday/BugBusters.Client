@@ -5,11 +5,11 @@ type MainLayoutProps = {
 };
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
-  return <div>
-    <TopNavBar />
-    {/* <SideNavBar /> */}
-    <h3 className="text-center">---This is Main Layout---</h3>
-    
-    <main>{children}</main>
-  </div>;
+  return (
+    <div>
+      <TopNavBar />
+      {/* <SideNavBar /> */}
+      <main>{children}</main>
+    </div>
+  );
 };
