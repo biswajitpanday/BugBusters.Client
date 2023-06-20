@@ -3,6 +3,7 @@ import "./Auth.Style.scss";
 import { LoginDto, RegistrationDto } from "@/types/AuthTypes";
 import { useLogin, useRegister } from "@/lib/Auth";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const AuthPage = () => {
   const [authMode, setAuthMode] = useState("signin");
@@ -83,7 +84,7 @@ const AuthPage = () => {
             <p className="text-center mt-2" onClick={() =>{
               toast("I use a custom id");
             }}>
-              Forgot <a href="#">password?</a>
+              Forgot <Link to="#">password?</Link>
             </p>
           </div>
         </form>
@@ -181,7 +182,7 @@ const AuthPage = () => {
             </button>
           </div>
           <p className="text-center mt-2">
-            Forgot <a href="#">password?</a>
+            Forgot <Link to="#">password?</Link>
           </p>
         </div>
       </form>
