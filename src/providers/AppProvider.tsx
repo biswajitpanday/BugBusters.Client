@@ -47,14 +47,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
           <QueryClientProvider client={queryClient}>
             {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
             <ToastContainer theme="dark" limit={5} />
-            <Router>
+            
               <AuthLoader
                 renderLoading={() => <Spinner />}
                 renderUnauthenticated={() => <AuthPage />}
               >
-                <Container className="p-3">{children}</Container>
+                <Router>{children}</Router>
               </AuthLoader>
-            </Router>
+            
           </QueryClientProvider>
         </HelmetProvider>
       </ErrorBoundary>
