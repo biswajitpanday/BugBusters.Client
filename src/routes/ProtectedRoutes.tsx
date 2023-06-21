@@ -20,13 +20,13 @@ const ProtectedApp = () => {
 
 export const protectedRoutes = [
   {
-    path: AppRouteConstant.Root(),
+    path: AppRouteConstant.AppRoot(),
     element: <ProtectedApp />,
     children: [
-      { path: `${AppRouteConstant.Questions()}*`, element: <QuestionRoutes /> },
+      { path: `${AppRouteConstant.Questions()}/*`, element: <QuestionRoutes /> },
     //   { path: "/users", element: <Users /> },
     //   { path: "/profile", element: <Profile /> },
-    //   { path: "/", element: <Dashboard /> },
+      { path: "", element: <QuestionRoutes /> },
       { path: "*", element: <Navigate to="." /> },
     ],
   },
