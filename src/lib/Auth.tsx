@@ -23,6 +23,7 @@ function loadUser(): UserProfile | null {
 async function loginFn(data: LoginDto) {
   const response = await login(data);
   const user = await handleResponse(response);
+  console.log("User: " + user?.firstName);
   return user;
 }
 
