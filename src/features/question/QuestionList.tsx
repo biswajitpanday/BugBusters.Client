@@ -4,11 +4,11 @@ export const QuestionList = () => {
   return (
     <>
       <ContentLayout title="Question List Title Here">
-        <h3>Question 1</h3>
-        <h3>Question 2</h3>
-        <h3>Question 3</h3>
-        <h3>Question 4</h3>
-        <h3>Question 5</h3>
+        <p>Question 1</p>
+        <p>Question 2</p>
+        <p>Question 3</p>
+        <p>Question 4</p>
+        <p>Question 5</p>
       </ContentLayout>
     </>
   );

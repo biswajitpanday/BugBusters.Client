@@ -2,7 +2,7 @@ import { AppRouteConstant } from "@/constant";
 import { useLogin } from "@/lib/Auth";
 import { LoginDto } from "@/types";
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Auth.Style.scss";
 
 export const LoginForm = () => {
@@ -11,13 +11,19 @@ export const LoginForm = () => {
         password: "",
       });
       const login = useLogin();
+      const navigate = useNavigate();
     
       const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
         setLoginCredentials({ ...loginCredentials, [name]: value });
       };
       const handleSubmit = async (e: { preventDefault: () => void }) => {
-        login.mutate({...loginCredentials});
+        const res = await login.mutateAsync({...loginCredentials});
+        console.log("Login Response : " + res?.firstName);
+        if(res?.id) {
+          navigate(AppRouteConstant.Questions())
+        }
+        
       };
     
       return (
