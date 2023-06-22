@@ -16,21 +16,21 @@ import { AppRouteConstant } from "@/constant";
 export const TopNavBar = () => {
   const logout = useLogout();
   return (
-    <Navbar bg="light" expand="lg" className="mx-auto">
-      <Navbar.Brand href="." className="ms-3">
-        <Image src={logo} alt="Bug Busters" width={100} />
+    <Navbar bg="light" expand="lg" className="mx-auto" sticky="top">
+      <Navbar.Brand href=".">
+        <Image src={logo} alt="Bug Busters" width={143} />
       </Navbar.Brand>
       
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Toggle aria-controls="basic-navbar-nav"  />
       
-      <Navbar.Collapse id="basic-navbar-nav" className="me-3">
+      <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="justify-content-end">
           <Nav.Link href={AppRouteConstant.Questions()}>Questions</Nav.Link>
           <Nav.Link href={AppRouteConstant.Users()}>Users</Nav.Link>
           <Nav.Link href={AppRouteConstant.AskQuestion()}>Ask Question</Nav.Link>
         </Nav>
         <Form className="d-flex">
-          <FormControl type="text" placeholder="Search" className="mr-sm-2 ms-2 me-2" size="sm" width={600}/>
+          <FormControl type="text" placeholder="Search" size="sm" width={600}/>
         </Form>
         <Nav className="mr-5">
           <NavDropdown title={<PersonCircle />} id="nav-add" align="end" >

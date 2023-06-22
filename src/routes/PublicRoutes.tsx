@@ -5,7 +5,7 @@ const {AuthRoutes} = lazyImport(() => import('@/features/auth'), 'AuthRoutes');
 
 export const publicRoutes = [
   {
-    path: `${AppRouteConstant.AuthRoot()}*`,
+    path: `${AppRouteConstant.Root()}*`,
     element: <AuthRoutes />,
   },
 ];
