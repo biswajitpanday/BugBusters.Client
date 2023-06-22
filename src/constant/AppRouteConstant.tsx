@@ -1,17 +1,13 @@
 export const AppRouteConstant = {
   Root: () => "/",
 
-  AppRoot: () => `${AppRouteConstant.Root()}app`,
-  AuthRoot: () => `${AppRouteConstant.Root()}auth/`,
-
-  Login: () => `${AppRouteConstant.AuthRoot()}login`,
-  Registration: () => `${AppRouteConstant.AuthRoot()}signup`,
-
-  UserProfile: () => `${AppRouteConstant.AppRoot()}/profile`,
-  Users: () => `${AppRouteConstant.AppRoot()}/users`,
-  Settings: () => `${AppRouteConstant.AppRoot()}/settings`,
-  Questions: () => `${AppRouteConstant.AppRoot()}/questions`,
-  AskQuestion: () => `${AppRouteConstant.AppRoot()}/ask-question`,
-  QuestionDetail: () => `${AppRouteConstant.AppRoot()}/question-details`,
-  SearchResult: () => `${AppRouteConstant.AppRoot()}/search-result`,
+  Login: () => `${AppRouteConstant.Root()}login`,
+  Registration: () => `${AppRouteConstant.Root()}signup`,
+  UserProfile: () => `${AppRouteConstant.Root()}profile`,
+  Users: () => `${AppRouteConstant.Root()}users`,
+  Settings: () => `${AppRouteConstant.Root()}settings`,
+  Questions: () => `${AppRouteConstant.Root()}questions`,
+  AskQuestion: () => `${AppRouteConstant.Root()}ask-question`,
+  QuestionDetail: () => `${AppRouteConstant.Root()}question-details`,
+  SearchResult: () => `${AppRouteConstant.Root()}search-result`,
 };

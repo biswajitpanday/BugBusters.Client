@@ -19,11 +19,7 @@ export const LoginForm = () => {
       };
       const handleSubmit = async (e: { preventDefault: () => void }) => {
         const res = await login.mutateAsync({...loginCredentials});
-        console.log("Login Response : " + res?.firstName);
-        if(res?.id) {
-          navigate(AppRouteConstant.Questions())
-        }
-        
+        res?.id != null && navigate(AppRouteConstant.Questions());
       };
     
       return (
