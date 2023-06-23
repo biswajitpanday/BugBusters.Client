@@ -5,15 +5,14 @@ import { HelmetProvider } from "react-helmet-async";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient } from "@/lib/ReactQuery";
 import { AuthLoader } from "@/lib/Auth";
-//import { QueryClientProvider } from "react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Container } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "@/components/elements/spinner";
+import "react-toastify/dist/ReactToastify.css";
 
-export const ErrorFallback = () => {
+const ErrorFallback = () => {
   return (
     <Container
       fluid
