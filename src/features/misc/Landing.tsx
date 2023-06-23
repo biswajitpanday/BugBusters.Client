@@ -12,7 +12,7 @@ export const Landing = () => {
   // Entry Point Separation for Private & Public View
   const handleStart = () => {
     console.log(AppRouteConstant.Login());
-    user.data !== null ? navigate(AppRouteConstant.AppRoot()) : navigate(AppRouteConstant.Login());
+    user.data !== null ? navigate(AppRouteConstant.Root()) : navigate(AppRouteConstant.Login());
   };
 
   return (
