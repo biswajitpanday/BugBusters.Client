@@ -1,11 +1,13 @@
 import { Spinner } from "@/components/elements/spinner";
 import { MainLayout } from "@/components/layout";
 import { AppRouteConstant } from "@/constant";
+import { NotFound } from "@/features/misc";
 import { lazyImport } from "@/utils/LazyImportUtil";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 const { QuestionRoutes } = lazyImport(() => import('@/features/question'), 'QuestionRoutes');
+const { UserRoutes } = lazyImport(() => import('@/features/users'), 'UserRoutes');
 
 const ProtectedApp = () => {
   return (
@@ -23,11 +25,11 @@ export const protectedRoutes = [
     path: AppRouteConstant.Root(),
     element: <ProtectedApp />,
     children: [
+      { path: AppRouteConstant.Root(), element: <QuestionRoutes /> }, 
       { path: `${AppRouteConstant.Questions()}/*`, element: <QuestionRoutes /> },
-      // { path: "/users", element: <Users /> },
+      { path: `${AppRouteConstant.Users()}/*`, element: <UserRoutes /> },
       // { path: "/profile", element: <Profile /> },
-      // { path: AppRouteConstant.Root(), element: <QuestionRoutes /> },
-      // { path: "*", element: <Navigate to="." /> },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ];

@@ -7,7 +7,6 @@ export const AppRouteConstant = {
   Users: () => `${AppRouteConstant.Root()}users`,
   Settings: () => `${AppRouteConstant.Root()}settings`,
   Questions: () => `${AppRouteConstant.Root()}questions`,
-  AskQuestion: () => `${AppRouteConstant.Root()}ask-question`,
-  QuestionDetail: () => `${AppRouteConstant.Root()}question-details`,
+  AskQuestion: () => `${AppRouteConstant.Questions()}/ask-question`,
   SearchResult: () => `${AppRouteConstant.Root()}search-result`,
 };
