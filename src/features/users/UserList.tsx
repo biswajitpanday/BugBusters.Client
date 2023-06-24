@@ -1,7 +1,7 @@
 import { ContentLayout } from "@/components/layout";
 import { Authorization } from "@/lib/Authorization";
 import { Roles } from "@/types";
-import { Forbidden } from "../misc/Forbidden";
+import { Forbidden } from "../misc";
 
 export const UserList = () => {
   return (
