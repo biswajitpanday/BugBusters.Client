@@ -46,8 +46,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
             <ToastContainer theme="dark" limit={5} />
             <AuthLoader renderLoading={() => <Spinner />}>
-              {" "}
-              {/* renderUnauthenticated={() => <AuthPage />} */}
               <Router>{children}</Router>
             </AuthLoader>
           </QueryClientProvider>

@@ -1,10 +1,16 @@
 import { ContentLayout } from "@/components/layout";
+import { CkEditor } from "./components/ckEditor/CkEditor";
+
 
 export const AskQuestion = () => {
+  const editorConfiguration = {
+    // toolbar: ["bold", "italic"],
+  };
+
   return (
     <>
-      <ContentLayout title="Ask Question Title Here">
-        <p>We need to add ck-editor type something and title input box here. Create components inside Component folder as per need </p>
+      <ContentLayout title="Ask Question">
+        <CkEditor />
       </ContentLayout>
     </>
   );

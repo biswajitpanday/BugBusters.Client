@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 function axiosInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken();
   if (token) {
-    config.headers!.Authorization = `${token}`;
+    config.headers!.Authorization = `Bearer ${token}`;
   }
   config.headers!.Accept = "application/json";
   config.headers!["Content-Type"] = "application/json";
@@ -16,10 +16,10 @@ function axiosInterceptor(config: InternalAxiosRequestConfig) {
 export const axios = Axios.create({ baseURL: `${API_URL}` });
 axios.interceptors.request.use(axiosInterceptor);
 axios.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     return response.data;
   },
-  (error) => {
+  (error: any) => {
     const message = error.response?.data?.message || error.message;
     console.log(message);
     toast(message);

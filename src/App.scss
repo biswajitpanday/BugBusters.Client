@@ -1,5 +1,9 @@
 $body-bg: #e4e4e4;
 
-$primary: #8E44AD;
+$primary: #8e44ad;
 
-@import '~bootstrap/scss/bootstrap';
+.vh-container-100 {
+  height: calc(100vh - 60px);
+}
+
+@import "~bootstrap/scss/bootstrap";
