@@ -5,12 +5,12 @@ import {
   NavDropdown,
   Navbar,
 } from "react-bootstrap";
-import "./TopNavBar.Style.scss";
 import { PersonCircle} from "react-bootstrap-icons";
 import Image from "react-bootstrap/Image";
 import logo from "../../../assets/BugBustersLogo.png";
 import { useLogout } from "@/lib/Auth";
 import { AppRouteConstant } from "@/constant";
+import "./TopNavBar.Style.scss";
 
 
 export const TopNavBar = () => {

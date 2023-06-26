@@ -2,7 +2,7 @@ import { ApiRouteConstant } from "@/constant";
 import { axios } from "@/lib/AxiosInterceptor";
 import { QuestionCreateDto, QuestionResponse } from "@/types";
 
-export const getAll = async (): Promise<QuestionResponse> => {
+export const getAllQuestion = async (): Promise<QuestionResponse> => {
   return await axios.get(ApiRouteConstant.Question.Root());
 };
 
