@@ -10,7 +10,7 @@ const questionGetAll = async (): Promise<QuestionResponse[]> => {
 };
 
 const questionGetById = async (id: string): Promise<QuestionResponse> => {
-  return await axios.get(`${ApiRouteConstant.Question.Root()}/${id}`);
+  return await axios.get(`${ApiRouteConstant.Question.Root()}${id}`);
 };
 
 const questionCreate = async (request: QuestionCreateDto) => {
