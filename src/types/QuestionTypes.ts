@@ -5,7 +5,7 @@ export type QuestionResponse = {
     body: string;
     upVoteCount: number;
     downVoteCount: number;
-    answers: AnswerResponse;
+    answers: AnswerResponse[];
 } & BaseResponse;
 
 export type QuestionCreateDto = {
