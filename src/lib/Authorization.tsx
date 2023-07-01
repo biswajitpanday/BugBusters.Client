@@ -35,7 +35,6 @@ type AuthorizationProps = {
     }
 );
 
-
 // export const POLICIES = {
 //   'comment:delete': (user: UserProfile, comment: Comment) => {
 //     if (user.role === Roles.Admin) {
