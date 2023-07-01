@@ -5,6 +5,7 @@ import { NotFound } from "../misc";
 import TimeAgo from "react-timeago";
 import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { CaretDown, CaretUp } from "react-bootstrap-icons";
+import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 
 export const QuestionDetail = () => {
   const { questionId } = useParams();
@@ -13,11 +14,12 @@ export const QuestionDetail = () => {
   const questionQuery = useQuestion(questionId!);
 
   questionQuery.isLoading && <Spinner />;
-  if (!questionQuery.data) return null;
+  if (!questionQuery.data) return null; // todo: Create a Data Not Found Component.
 
   const {
     title,
     createdAt,
+    lastUpdate,
     body,
     upVoteCount,
     downVoteCount,
@@ -26,8 +28,6 @@ export const QuestionDetail = () => {
   } = questionQuery.data;
 
   const vote = Math.abs(upVoteCount - downVoteCount);
-
-  console.log(questionQuery.data);
 
   return (
     <>
@@ -38,23 +38,8 @@ export const QuestionDetail = () => {
           </Col>
         </Row>
         <Row className="mt-1">
-          <Col xs={2}>
-            <span>
-              Asked{" "}
-              <strong>
-                <TimeAgo date={questionQuery.data.createdAt} />
-              </strong>
-            </span>
-          </Col>
-
-          <Col xs={2}>
-            <span>
-              Modified{" "}
-              <strong>
-                <TimeAgo date={questionQuery.data.lastUpdate} />
-              </strong>
-            </span>
-          </Col>
+          <BbTimeAgo title="Asked" dateTime={createdAt} />
+          <BbTimeAgo title="Modified" dateTime={lastUpdate} />
         </Row>
 
         <hr />
@@ -92,9 +77,7 @@ export const QuestionDetail = () => {
             <Row>
               <Col>
                 <div className="float-end bg-dark-subtle p-2 rounded-1">
-                  <div>
-                    Asked <TimeAgo date={createdAt} />{" "}
-                  </div>
+                  <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                   <div className="">By {createdById}</div>
                   {/*  todo: replace with createdByName */}
                   <div className=""></div>
@@ -105,7 +88,7 @@ export const QuestionDetail = () => {
         </Row>
 
         <Card title="Answers" className="mt-3">
-          {questionQuery.data.answers.map((item) => {
+          {answers.map((item) => {
             let answerVote = Math.abs(item.upVoteCount - item.downVoteCount);
             return (
               <>

@@ -19,18 +19,18 @@ export const QuestionList = () => {
             <Row className="pt-3 pb-3">
               <Col xs={2}>
                 <div className="text-end">
-                  <div className="">
+                  <div>
                     {item.upVoteCount} UpVote{item.upVoteCount > 1 ? "s" : ""}
                   </div>
-                  <div className="">
+                  <div>
                     {item.downVoteCount} DownVote
                     {item.downVoteCount > 1 ? "s" : ""}
                   </div>
-                  <div className="">0 Answers</div>
+                  <div>0 Answers</div>
                 </div>
               </Col>
               <Col xs={10}>
-                <div className="">
+                <div>
                   <Link
                     to={`${AppRouteConstant.Questions()}/${item.id}`}
                     className="underline-none"
@@ -38,7 +38,7 @@ export const QuestionList = () => {
                     {item.title}
                   </Link>
                 </div>
-                <div className="">
+                <div>
                   <p>{item.body}</p>
                 </div>
               </Col>
