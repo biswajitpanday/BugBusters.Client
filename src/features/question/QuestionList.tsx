@@ -1,7 +1,7 @@
 import { ContentLayout } from "@/components/layout";
 import { useQuestions } from "./api/Question.api";
 import { Spinner } from "@/components/elements/spinner";
-import { Table } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
 
@@ -14,29 +14,37 @@ export const QuestionList = () => {
   return (
     <>
       <ContentLayout title="Question List">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Body</th>
-              <th>Create At</th>
-              <th>Total Upvote</th>
-              <th>Total Downvote</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {questionsQuery.data.map((item) => (
-              <tr key={item.id}>
-                <td><Link to={`${AppRouteConstant.Questions()}/${item.id}`}>{item.title}</Link> </td>
-                <td>{item.body}</td>
-                <td>{item.createdAt.toLocaleString()}</td>
-                <td>{item.upVoteCount}</td>
-                <td>{item.downVoteCount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        {questionsQuery.data.map((item) => (
+          <Card className="mt-1">
+            <Row className="pt-3 pb-3">
+              <Col xs={2}>
+                <div className="text-end">
+                  <div className="">
+                    {item.upVoteCount} UpVote{item.upVoteCount > 1 ? "s" : ""}
+                  </div>
+                  <div className="">
+                    {item.downVoteCount} DownVote
+                    {item.downVoteCount > 1 ? "s" : ""}
+                  </div>
+                  <div className="">0 Answers</div>
+                </div>
+              </Col>
+              <Col xs={10}>
+                <div className="">
+                  <Link
+                    to={`${AppRouteConstant.Questions()}/${item.id}`}
+                    className="underline-none"
+                  >
+                    {item.title}
+                  </Link>
+                </div>
+                <div className="">
+                  <p>{item.body}</p>
+                </div>
+              </Col>
+            </Row>
+          </Card>
+        ))}
       </ContentLayout>
     </>
   );
