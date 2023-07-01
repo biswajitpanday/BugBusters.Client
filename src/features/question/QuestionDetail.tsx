@@ -2,7 +2,6 @@ import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
 import { NotFound } from "../misc";
-import TimeAgo from "react-timeago";
 import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { CaretDown, CaretUp } from "react-bootstrap-icons";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
@@ -34,7 +33,7 @@ export const QuestionDetail = () => {
       <ContentLayout title="">
         <Row className="mt-3">
           <Col xs={12}>
-            <h2>{title}</h2>
+            <h3>{title}</h3>
           </Col>
         </Row>
         <Row className="mt-1">
@@ -87,7 +86,66 @@ export const QuestionDetail = () => {
           </Col>
         </Row>
 
-        <Card title="Answers" className="mt-3">
+        <hr />
+
+        <Row>
+          <Col>
+            <h4>
+              {answers.length} Answer{answers.length > 1 ? "s" : ""}
+            </h4>
+          </Col>
+        </Row>
+
+        {answers.map((item) => {
+          const {body, createdAt, downVoteCount, id, isAccepted, upVoteCount, userId} = item;
+          const vote = Math.abs(upVoteCount - downVoteCount);
+          return (
+            <Row className="pt-3 pb-3">
+              <Col xs={1}>
+                <div className="text-center">
+                  <div>
+                    <Button
+                      type="button"
+                      variant="outline-primary"
+                      className="rounded-circle pb-2"
+                      size="sm"
+                    >
+                      <CaretUp size={16} />
+                    </Button>
+                  </div>
+                  <div>
+                    <strong>{vote}</strong>
+                  </div>
+                  <div>
+                    <Button
+                      type="button"
+                      variant="outline-primary"
+                      className="rounded-circle pb-2"
+                      size="sm"
+                    >
+                      <CaretDown size={16} />
+                    </Button>
+                  </div>
+                </div>
+              </Col>
+              <Col xs={11}>
+                <p className="">{body}</p>
+                <Row>
+                  <Col>
+                    <div className="float-end bg-dark-subtle p-2 rounded-1">
+                      <BbTimeAgo title="Answered" dateTime={createdAt} size={12} />
+                      {/* <div className="">By {createdById}</div> */}
+                      {/*  todo: replace with createdByName */}
+                      <div className=""></div>
+                    </div>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          );
+        })}
+
+        {/* <Card title="Answers" className="mt-3">
           {answers.map((item) => {
             let answerVote = Math.abs(item.upVoteCount - item.downVoteCount);
             return (
@@ -128,7 +186,7 @@ export const QuestionDetail = () => {
               </>
             );
           })}
-        </Card>
+        </Card> */}
       </ContentLayout>
     </>
   );
