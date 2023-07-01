@@ -3,7 +3,7 @@ import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
 import { NotFound } from "../misc";
 import TimeAgo from "react-timeago";
-import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { CaretDown, CaretUp } from "react-bootstrap-icons";
 
 export const QuestionDetail = () => {
@@ -15,48 +15,94 @@ export const QuestionDetail = () => {
   questionQuery.isLoading && <Spinner />;
   if (!questionQuery.data) return null;
 
-  const vote = Math.abs(
-    questionQuery.data.upVoteCount - questionQuery.data.downVoteCount
-  );
+  const {
+    title,
+    createdAt,
+    body,
+    upVoteCount,
+    downVoteCount,
+    createdById,
+    answers,
+  } = questionQuery.data;
+
+  const vote = Math.abs(upVoteCount - downVoteCount);
 
   console.log(questionQuery.data);
 
   return (
     <>
       <ContentLayout title="">
-        <Card title="Question">
-          <Card.Footer>
-            <div className="btn-group" role="group">
-              <button type="button" className="btn btn-link">
-                <CaretUp />
-              </button>
-              <div className="mt-2" title="Vote">
-                {vote}
+        <Row className="mt-3">
+          <Col xs={12}>
+            <h2>{title}</h2>
+          </Col>
+        </Row>
+        <Row className="mt-1">
+          <Col xs={2}>
+            <span>
+              Asked{" "}
+              <strong>
+                <TimeAgo date={questionQuery.data.createdAt} />
+              </strong>
+            </span>
+          </Col>
+
+          <Col xs={2}>
+            <span>
+              Modified{" "}
+              <strong>
+                <TimeAgo date={questionQuery.data.lastUpdate} />
+              </strong>
+            </span>
+          </Col>
+        </Row>
+
+        <hr />
+
+        <Row className="pt-3 pb-3">
+          <Col xs={1}>
+            <div className="text-center">
+              <div>
+                <Button
+                  type="button"
+                  variant="outline-primary"
+                  className="rounded-circle pb-2"
+                  size="sm"
+                >
+                  <CaretUp size={16} />
+                </Button>
               </div>
-              <button type="button" className="btn btn-link">
-                <CaretDown />
-              </button>
+              <div>
+                <strong>{vote}</strong>
+              </div>
+              <div>
+                <Button
+                  type="button"
+                  variant="outline-primary"
+                  className="rounded-circle pb-2"
+                  size="sm"
+                >
+                  <CaretDown size={16} />
+                </Button>
+              </div>
             </div>
-            <strong>{questionQuery.data.title}</strong>
-          </Card.Footer>
-          <Card.Header>
+          </Col>
+          <Col xs={11}>
+            <p className="">{body}</p>
             <Row>
               <Col>
-                Asked{" "}
-                <strong>
-                  <TimeAgo date={questionQuery.data.createdAt} />
-                </strong>
+                <div className="float-end bg-dark-subtle p-2 rounded-1">
+                  <div>
+                    Asked <TimeAgo date={createdAt} />{" "}
+                  </div>
+                  <div className="">By {createdById}</div>
+                  {/*  todo: replace with createdByName */}
+                  <div className=""></div>
+                </div>
               </Col>
             </Row>
-          </Card.Header>
-          <Card.Body>
-            <Row>
-              <Col>
-                <p>{questionQuery.data.body}</p>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+          </Col>
+        </Row>
 
         <Card title="Answers" className="mt-3">
           {questionQuery.data.answers.map((item) => {
@@ -79,7 +125,7 @@ export const QuestionDetail = () => {
                 <Card.Header>
                   <Row>
                     <Col>
-                      Answered {" "}
+                      Answered{" "}
                       <strong>
                         <TimeAgo date={item.createdAt} />
                       </strong>

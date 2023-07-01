@@ -5,6 +5,7 @@ export type QuestionResponse = {
     body: string;
     upVoteCount: number;
     downVoteCount: number;
+    createdById: string;
     answers: AnswerResponse[];
 } & BaseResponse;
 
