@@ -4,6 +4,7 @@ import { Spinner } from "@/components/elements/spinner";
 import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
+import { Pluralize } from "@/utils/HelperUtil";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -19,13 +20,8 @@ export const QuestionList = () => {
             <Row className="pt-3 pb-3">
               <Col xs={2}>
                 <div className="text-end">
-                  <div>
-                    {item.upVoteCount} UpVote{item.upVoteCount > 1 ? "s" : ""}
-                  </div>
-                  <div>
-                    {item.downVoteCount} DownVote
-                    {item.downVoteCount > 1 ? "s" : ""}
-                  </div>
+                  <div>{Pluralize(item.upVoteCount, "UpVote")}</div>
+                  <div>{Pluralize(item.downVoteCount, "DownVote")}</div>
                   <div>0 Answers</div>
                 </div>
               </Col>
