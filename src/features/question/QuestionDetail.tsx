@@ -19,11 +19,12 @@ export const QuestionDetail = () => {
   const {
     title,
     createdAt,
-    lastUpdate,
+    lastUpdated,
     body,
     upVoteCount,
     downVoteCount,
     createdById,
+    createdBy,
     answers,
   } = questionQuery.data;
 
@@ -39,7 +40,7 @@ export const QuestionDetail = () => {
         </Row>
         <Row className="mt-1">
           <BbTimeAgo title="Asked" dateTime={createdAt} />
-          <BbTimeAgo title="Modified" dateTime={lastUpdate} />
+          <BbTimeAgo title="Modified" dateTime={lastUpdated} />
         </Row>
 
         <hr />
@@ -50,10 +51,9 @@ export const QuestionDetail = () => {
             <p className="">{body}</p>
             <Row>
               <Col>
-                <div className="float-end bg-dark-subtle p-2 rounded-1">
+                <div className="float-end bg-dark-subtle p-2 rounded-1 attribute-text">
                   <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
-                  <div className="">By {createdById}</div>
-                  {/*  todo: replace with createdByName */}
+                  <div className="">By {`${createdBy.firstName} ${createdBy.lastName}`}</div>
                   <div className=""></div>
                 </div>
               </Col>
@@ -79,10 +79,8 @@ export const QuestionDetail = () => {
                 <p className="">{body}</p>
                 <Row>
                   <Col>
-                    <div className="float-end bg-dark-subtle p-2 rounded-1">
+                    <div className="float-end bg-dark-subtle p-2 rounded-1 attribute-text">
                       <BbTimeAgo title="Answered" dateTime={createdAt} size={12} />
-                      {/* <div className="">By {createdById}</div> */}
-                      {/*  todo: replace with createdByName */}
                       <div className=""></div>
                     </div>
                   </Col>

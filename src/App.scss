@@ -10,4 +10,8 @@ $primary: #8e44ad;
   text-decoration: none;
 }
 
+.attribute-text * {
+  font-size: 10px;
+}
+
 @import "~bootstrap/scss/bootstrap";
