@@ -2,40 +2,45 @@ import { Button, Col } from "react-bootstrap";
 import { CaretDown, CaretUp } from "react-bootstrap-icons";
 
 type BbTimeAgoProps = {
-  vote: number;
+  voteCount: number;
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 };
 
-export const UpVoteDownVote = ({ vote, size = 2 }: BbTimeAgoProps) => {
+export const UpVoteDownVote = ({ voteCount, size = 2 }: BbTimeAgoProps) => {
+  //const voteQuery = useCreateVote();
+  const createVote = (isUpVote: boolean) => {
+    console.log("Vote Create...");
+  };
+
   return (
-    <>
-      <Col xs={1}>
-        <div className="text-center">
-          <div>
-            <Button
-              type="button"
-              variant="outline-primary"
-              className="rounded-circle pb-2"
-              size="sm"
-            >
-              <CaretUp size={16} />
-            </Button>
-          </div>
-          <div>
-            <strong>{vote}</strong>
-          </div>
-          <div>
-            <Button
-              type="button"
-              variant="outline-primary"
-              className="rounded-circle pb-2"
-              size="sm"
-            >
-              <CaretDown size={16} />
-            </Button>
-          </div>
+    <Col xs={1}>
+      <div className="text-center">
+        <div>
+          <Button
+            type="button"
+            variant="outline-primary"
+            className="rounded-circle pb-2"
+            size="sm"
+            onClick={() => createVote(true)}
+          >
+            <CaretUp size={16} />
+          </Button>
         </div>
-      </Col>
-    </>
+        <div>
+          <strong>{voteCount}</strong>
+        </div>
+        <div>
+          <Button
+            type="button"
+            variant="outline-primary"
+            className="rounded-circle pb-2"
+            size="sm"
+            onClick={() => createVote(false)}
+          >
+            <CaretDown size={16} />
+          </Button>
+        </div>
+      </div>
+    </Col>
   );
 };

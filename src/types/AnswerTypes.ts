@@ -1,3 +1,4 @@
+import { UserProfile } from "./AuthTypes";
 import { BaseResponse } from "./BaseResponse";
 
 export type AnswerResponse = {
@@ -5,6 +6,7 @@ export type AnswerResponse = {
     body: string;
     upVoteCount: number;
     isAccepted: boolean;
-    userId: string;
+    createdById: string;
+    createdBy: UserProfile;
     downVoteCount: number;
 } & BaseResponse;
