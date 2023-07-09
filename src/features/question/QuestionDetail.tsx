@@ -18,6 +18,7 @@ export const QuestionDetail = () => {
   if (!questionQuery.data) return null; // todo: Create a Data Not Found Component.
 
   const {
+    id,
     title,
     createdAt,
     lastUpdated,
@@ -46,7 +47,7 @@ export const QuestionDetail = () => {
       <hr />
 
       <Row className="pt-3 pb-3">
-        <UpVoteDownVote voteCount={vote} />
+        <UpVoteDownVote voteCount={vote} questionId={id} />
         <Col xs={11}>
           <p className="">{body}</p>
           <Row>
@@ -71,10 +72,10 @@ export const QuestionDetail = () => {
 
       {answers.map((item: AnswerResponse) => {
         const {
+          id,
           body,
           createdAt,
           downVoteCount,
-          id,
           isAccepted,
           upVoteCount,
           createdById,
@@ -83,7 +84,7 @@ export const QuestionDetail = () => {
         const vote = Math.abs(upVoteCount - downVoteCount);
         return (
           <Row className="pt-3 pb-3" key={id}>
-            <UpVoteDownVote voteCount={vote} />
+            <UpVoteDownVote voteCount={vote} answerId={id} />
             <Col xs={11}>
               <p className="">{body}</p>
               <Row>

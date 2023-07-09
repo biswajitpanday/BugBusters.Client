@@ -7,6 +7,6 @@ export type VoteResponse = {
 
 export type VoteCreateDto = {
     isUpVote: boolean;
-    questionId?: string;
-    answerId?: string;
+    questionId?: string | null;
+    answerId?: string | null;
 }
