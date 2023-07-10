@@ -6,4 +6,12 @@ $primary: #8e44ad;
   height: calc(100vh - 60px);
 }
 
+.underline-none {
+  text-decoration: none;
+}
+
+.attribute-text * {
+  font-size: 10px;
+}
+
 @import "~bootstrap/scss/bootstrap";

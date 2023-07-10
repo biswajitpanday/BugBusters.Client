@@ -35,7 +35,6 @@ type AuthorizationProps = {
     }
 );
 
-
 // export const POLICIES = {
 //   'comment:delete': (user: UserProfile, comment: Comment) => {
 //     if (user.role === Roles.Admin) {
@@ -59,8 +58,8 @@ export const Authorization = ({
   if (allowedRoles) {
     canAccess = checkAccess({ allowedRoles });
   }
-  if (typeof policyCheck !== "undefined") {
-    canAccess = policyCheck;
-  }
+  // if (typeof policyCheck !== "undefined") {
+  //   canAccess = policyCheck;
+  // }
   return <>{canAccess ? children : forbiddenFallback}</>;
 };

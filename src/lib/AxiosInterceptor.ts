@@ -22,7 +22,12 @@ axios.interceptors.response.use(
   (error: any) => {
     const message = error.response?.data?.message || error.message;
     console.log(message);
-    toast(message);
+    if (error?.response?.status === 409) {
+      toast("Data Already Exists!")
+    }
+    else {
+      toast(message);
+    }
     return Promise.reject(error);
   }
 );

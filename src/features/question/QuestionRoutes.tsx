@@ -10,7 +10,7 @@ export const QuestionRoutes = () => {
       <Route path="" element={<QuestionList />} />
       <Route path=":questionId" element={<QuestionDetail />} />
       <Route path=":ask-question" element={<AskQuestion />} />
-      <Route path="*" element={<NotFound/>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

@@ -22,7 +22,7 @@ function loadUser(): UserProfile | null {
 
 async function loginFn(data: LoginDto) {
   const response = await login(data);
-  const user = await handleResponse(response);
+  const user = handleResponse(response);
   console.log("User: " + user?.firstName);
   return user;
 }
@@ -39,19 +39,19 @@ async function registerFn(data: RegistrationDto) {
   return user;
 }
 
-async function handleResponse(data: AuthResponseDto) {
-  const { token, isActivated, profile, role } = data;
+function handleResponse(data: AuthResponseDto) {
+  const { token, isActivated, profileData, role } = data;
   if (!isActivated) {
     storage.clearStorage();
     return null;
   }
   const { exp } = jwtDecode<TokenDto>(token);
-  profile.role = role;
+  profileData.role = role;
   storage.setToken(token);
   storage.set(StorageConstant.TokenExpiration(), JSON.stringify(exp));
-  storage.setUserProfile(JSON.stringify(profile));
+  storage.setUserProfile(JSON.stringify(profileData));
   queryClient.setQueryData(["authenticated-user"], data);
-  return profile;
+  return profileData;
 }
 
 export const { useUser, useLogin, useRegister, useLogout, AuthLoader } =
