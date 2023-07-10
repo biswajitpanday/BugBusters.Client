@@ -58,8 +58,8 @@ export const Authorization = ({
   if (allowedRoles) {
     canAccess = checkAccess({ allowedRoles });
   }
-  if (typeof policyCheck !== "undefined") {
-    canAccess = policyCheck;
-  }
+  // if (typeof policyCheck !== "undefined") {
+  //   canAccess = policyCheck;
+  // }
   return <>{canAccess ? children : forbiddenFallback}</>;
 };

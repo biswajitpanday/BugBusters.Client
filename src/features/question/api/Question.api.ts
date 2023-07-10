@@ -77,11 +77,12 @@ export const useCreateVote = () => {
         ...(prevVotes || []),
         voteCreateDto,
       ]);
+      return { prevVotes };
     },
 
     onError: (_, __, context: any) => {
       if (context?.prevVotes) {
-        queryClient.setQueryData(voteQueryKey, context.prevVotes);
+        queryClient.setQueryData(voteQueryKey, context?.prevVotes);
       }
     },
 
