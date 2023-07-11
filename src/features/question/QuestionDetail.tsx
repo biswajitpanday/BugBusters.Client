@@ -6,7 +6,8 @@ import { Badge, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
 import { Pluralize } from "@/utils/HelperUtil";
-import { AnswerResponse } from "@/types";
+import { AnswerResponse, Roles } from "@/types";
+import { Authorization } from "@/lib/Authorization";
 
 export const QuestionDetail = () => {
   const { questionId } = useParams();
@@ -25,7 +26,6 @@ export const QuestionDetail = () => {
     body,
     upVoteCount,
     downVoteCount,
-    createdById,
     createdBy,
     answers,
   } = questionQuery.data;
@@ -33,6 +33,7 @@ export const QuestionDetail = () => {
   const vote = Math.abs(upVoteCount - downVoteCount);
 
   return (
+    <Authorization allowedRoles={[Roles.Admin, Roles.User]}>
     <ContentLayout title="">
       <Row className="mt-3">
         <Col xs={12}>
@@ -106,5 +107,6 @@ export const QuestionDetail = () => {
         );
       })}
     </ContentLayout>
+    </Authorization>
   );
 };

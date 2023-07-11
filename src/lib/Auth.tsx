@@ -14,7 +14,7 @@ import { StorageConstant } from "@/constant";
 
 function loadUser(): UserProfile | null {
   if (storage.getToken()) {
-    const userProfile = storage.getUserProfile() as UserProfile;
+    const userProfile = JSON.parse(storage.getUserProfile() as string) as UserProfile;
     return userProfile;
   }
   return null;
