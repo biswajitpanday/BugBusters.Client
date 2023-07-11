@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useUser } from "./Auth";
 import { Roles } from "@/types";
+import { Forbidden } from "@/features/misc";
 
 type RoleTypes = keyof typeof Roles;
 
@@ -50,7 +51,7 @@ type AuthorizationProps = {
 export const Authorization = ({
   policyCheck,
   allowedRoles,
-  forbiddenFallback = null,
+  forbiddenFallback = <Forbidden />,
   children,
 }: AuthorizationProps) => {
   const { checkAccess } = useAuthorization();
