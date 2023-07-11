@@ -34,7 +34,7 @@ const storage = {
   // #endregion
 
   // #region UserProfile
-  getUserProfile: () => {
+  getUserProfile: () : string => {
     return JSON.parse(
       window.localStorage.getItem(StorageConstant.UserProfile()) as string
     );

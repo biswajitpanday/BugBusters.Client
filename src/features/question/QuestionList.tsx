@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
 import { Pluralize } from "@/utils/HelperUtil";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
+import { Authorization } from "@/lib/Authorization";
+import { Roles } from "@/types";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -14,7 +16,7 @@ export const QuestionList = () => {
   if (!questionsQuery.data) return null;
 
   return (
-    <>
+    <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
       <ContentLayout title="Question List">
         {questionsQuery.data.map((item) => (
           <Card className="mt-1" key={item.id}>
@@ -51,6 +53,6 @@ export const QuestionList = () => {
           </Card>
         ))}
       </ContentLayout>
-    </>
+    </Authorization>
   );
 };
