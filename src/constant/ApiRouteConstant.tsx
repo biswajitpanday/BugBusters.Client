@@ -23,6 +23,6 @@ export const ApiRouteConstant = {
   },
   Answer: {
     Root: () => "Answer/",
-    Accept: () => `${ApiRouteConstant.Answer.Root()}Accept/:id`,
+    Accept: () => `${ApiRouteConstant.Answer.Root()}Accept`,
   },
 };

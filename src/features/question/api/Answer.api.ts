@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const answerAccept = async (request: AnswerAcceptDto) => {
   const body = JSON.stringify(request);
-  return await axios.put(ApiRouteConstant.Answer.Accept(), body);
+  return await axios.put(`${ApiRouteConstant.Answer.Accept()}/${request.id}`, body);
 }
 
 const answerAcceptQueryKey = ["AnswerAccept"]

@@ -6,12 +6,16 @@ import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
 import { Pluralize } from "@/utils/HelperUtil";
-import { AnswerResponse, Roles } from "@/types";
+import { AnswerAcceptDto, AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
+import { useAnswerAccept } from "./api/Answer.api";
+import { useState } from "react";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
+  const answerAcceptQuery = useAnswerAccept();
+  const [answerAcceptDto, setAnswerAcceptDto] = useState<AnswerAcceptDto>({id: ""});
   const { questionId } = useParams();
   !questionId && <NotFound />;
 
@@ -88,7 +92,13 @@ export const QuestionDetail = () => {
           const vote = Math.abs(upVoteCount - downVoteCount);
 
           const acceptAnswer = async (id: string) => {
-            console.log(id);
+            setAnswerAcceptDto({id: id});
+            const res = await answerAcceptQuery.mutateAsync({
+              ...answerAcceptDto,
+              id
+            });
+            console.log(res);
+            // todo: Show realtime update 
           };
 
           return (
@@ -112,7 +122,7 @@ export const QuestionDetail = () => {
                         size={12}
                       />
                     </Badge>
-                    {user?.id !== createdBy?.id && (
+                    {(user?.id !== createdBy?.id && !isAccepted) && (
                       <Button
                         type="button"
                         variant="outline-primary"
