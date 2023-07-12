@@ -1,8 +1,8 @@
 import { Button, Col, Spinner } from "react-bootstrap";
 import { CaretDown, CaretUp } from "react-bootstrap-icons";
-import { useCreateVote } from "../../api/Question.api";
 import { VoteCreateDto } from "@/types";
 import { useState } from "react";
+import { useCreateVote } from "../../api/Vote.api";
 
 type BbTimeAgoProps = {
   voteCount: number;
