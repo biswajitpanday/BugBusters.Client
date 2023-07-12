@@ -1,5 +1,9 @@
 import { Button, Col, Spinner } from "react-bootstrap";
-import { CaretDown, CaretUp } from "react-bootstrap-icons";
+import {
+  CaretDown,
+  CaretUp,
+  Check2,
+} from "react-bootstrap-icons";
 import { VoteCreateDto } from "@/types";
 import { useState } from "react";
 import { useCreateVote } from "../../api/Vote.api";
@@ -8,6 +12,7 @@ type BbTimeAgoProps = {
   voteCount: number;
   questionId?: string | null;
   answerId?: string | null;
+  isAccepted?: boolean;
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 };
 
@@ -15,6 +20,7 @@ export const UpVoteDownVote = ({
   voteCount,
   questionId = null,
   answerId = null,
+  isAccepted = false,
   size = 2,
 }: BbTimeAgoProps) => {
   const voteQuery = useCreateVote();
@@ -84,6 +90,7 @@ export const UpVoteDownVote = ({
             <CaretDown size={16} />
           </Button>
         </div>
+        {isAccepted && <Check2 size={30} color="green" />}
       </div>
     </Col>
   );

@@ -7,7 +7,7 @@ import { AppRouteConstant } from "@/constant";
 import { Pluralize } from "@/utils/HelperUtil";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { Authorization } from "@/lib/Authorization";
-import { Roles } from "@/types";
+import { QuestionResponse, Roles } from "@/types";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -18,40 +18,53 @@ export const QuestionList = () => {
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
       <ContentLayout title="Question List">
-        {questionsQuery.data.map((item) => (
-          <Card className="mt-1" key={item.id}>
-            <Row className="pt-3 pb-3">
-              <Col xs={2}>
-                <div className="text-end">
-                  <div>{Pluralize(item.upVoteCount, "UpVote")}</div>
-                  <div>{Pluralize(item.downVoteCount, "DownVote")}</div>
-                  <div>{Pluralize(item.answerCount, "Answer")}</div>
-                </div>
-              </Col>
-              <Col xs={10}>
-                <div>
-                  <Link
-                    to={`${AppRouteConstant.Questions()}/${item.id}`}
-                    className="underline-none"
-                  >
-                    {item.title}
-                  </Link>
-                </div>
-                <p>{item.body}</p>
-                <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                  {item.createdBy.firstName ||
-                    item.createdBy.lastName ||
-                    item.createdBy.email}
-                  <BbTimeAgo
-                    title="Asked"
-                    dateTime={item.createdAt}
-                    size={12}
-                  />
-                </Badge>
-              </Col>
-            </Row>
-          </Card>
-        ))}
+        {questionsQuery.data.map((item: QuestionResponse) => {
+          const {
+            id,
+            title,
+            body,
+            upVoteCount,
+            downVoteCount,
+            answerCount,
+            createdBy,
+            createdAt,
+          } = item;
+
+          return (
+            <Card className="mt-1" key={id}>
+              <Row className="pt-3 pb-3">
+                <Col xs={2}>
+                  <div className="text-end">
+                    <div>{Pluralize(upVoteCount, "UpVote")}</div>
+                    <div>{Pluralize(downVoteCount, "DownVote")}</div>
+                    <div>{Pluralize(answerCount, "Answer")}</div>
+                  </div>
+                </Col>
+                <Col xs={10}>
+                  <div>
+                    <Link
+                      to={`${AppRouteConstant.Questions()}/${id}`}
+                      className="underline-none"
+                    >
+                      {title}
+                    </Link>
+                  </div>
+                  <p>{body}</p>
+                  <Badge bg="primary" className="float-end bg me-3 rounded-1">
+                    {createdBy?.firstName ||
+                      createdBy?.lastName ||
+                      createdBy?.email}
+                    <BbTimeAgo
+                      title="Asked"
+                      dateTime={createdAt}
+                      size={12}
+                    />
+                  </Badge>
+                </Col>
+              </Row>
+            </Card>
+          );
+        })}
       </ContentLayout>
     </Authorization>
   );
