@@ -7,15 +7,14 @@ type BbTimeAgoProps = {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 };
 
+// todo : Make it same line. Add Suffix. Separate size to a constant.
 export const BbTimeAgo = ({ title, dateTime, size = 2 }: BbTimeAgoProps) => {
   return (
-    <>
-      <Col xs={size}>
-        {title}{" "}
-        <strong>
-          <TimeAgo date={dateTime} />
-        </strong>
-      </Col>
-    </>
+    <Col xs={size}>
+      {title}{" "}
+      <strong>
+        <TimeAgo date={dateTime} />
+      </strong>
+    </Col>
   );
 };

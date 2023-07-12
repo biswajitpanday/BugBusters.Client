@@ -36,10 +36,10 @@ export const UserList = () => {
             let fullName = firstName || null;
             if (middleName) fullName = fullName + " " + middleName;
             if (lastName) fullName = fullName + " " + lastName;
-            console.log(typeof userName);
+
             return (
-              <Col xs={3} key={item.id}>
-                <Card className="mt-2">
+              <Col xs={3} key={item.id} className="mt-2">
+                <Card className="h-100">
                   <Card.Body>
                     <div>
                       <PersonBoundingBox className="me-2" />
@@ -50,6 +50,7 @@ export const UserList = () => {
                         {fullName !== null ? fullName : `@${userName}`}
                       </Link>
                     </div>
+
                     <div>
                       <EnvelopeAt className="me-2" />
                       {email}
