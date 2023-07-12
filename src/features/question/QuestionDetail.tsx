@@ -55,7 +55,7 @@ export const QuestionDetail = () => {
             <Col>
               {/* Todo: Create a separate Component. */}
               <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                {createdBy.firstName || createdBy.lastName || createdBy.email}
+                {createdBy?.firstName || createdBy?.lastName || createdBy?.email}
                 <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
               </Badge>
             </Col>
@@ -79,24 +79,23 @@ export const QuestionDetail = () => {
           downVoteCount,
           isAccepted,
           upVoteCount,
-          createdById,
           createdBy,
         } = item;
         const vote = Math.abs(upVoteCount - downVoteCount);
         return (
           <Row className="pt-3 pb-3" key={id}>
-            <UpVoteDownVote voteCount={vote} answerId={id} />
+            <UpVoteDownVote voteCount={vote} answerId={id} isAccepted={isAccepted}/>
             <Col xs={11}>
               <p className="">{body}</p>
               <Row>
                 <Col>
                   <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                    {createdBy.firstName ||
-                      createdBy.lastName ||
-                      createdBy.email}
+                    {createdBy?.firstName ||
+                      createdBy?.lastName ||
+                      createdBy?.email}
                     <BbTimeAgo
                       title="Answered"
-                      dateTime={item.createdAt}
+                      dateTime={createdAt}
                       size={12}
                     />
                   </Badge>
