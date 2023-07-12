@@ -13,6 +13,10 @@ export const ApiRouteConstant = {
     GetById: () => `${ApiRouteConstant.Question.Root()}:id`,
     Create: () => `${ApiRouteConstant.Question.Root()}create`,
   },
+  User: {
+    Root: () => "user/",
+    GetById: () => `${ApiRouteConstant.User.Root()}:id`,
+  },
   Vote: {
     Root: () => "vote/",
     Create: () => `${ApiRouteConstant.Question.Root()}create`,

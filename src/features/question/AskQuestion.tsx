@@ -2,7 +2,6 @@ import { ContentLayout } from "@/components/layout";
 import { CkEditor } from "./components/ckEditor/CkEditor";
 import { Authorization } from "@/lib/Authorization";
 import { Roles } from "@/types";
-import { Forbidden } from "../misc";
 
 
 export const AskQuestion = () => {
@@ -11,7 +10,7 @@ export const AskQuestion = () => {
   };
 
   return (
-    <Authorization allowedRoles={[Roles.User]} forbiddenFallback={<Forbidden />}>
+    <Authorization allowedRoles={[Roles.User]}>
       <ContentLayout title="Ask Question">
         <CkEditor />
       </ContentLayout>
