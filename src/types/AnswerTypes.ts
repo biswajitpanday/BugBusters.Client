@@ -10,3 +10,7 @@ export type AnswerResponse = {
     createdBy: UserProfile;
     downVoteCount: number;
 } & BaseResponse;
+
+export type AnswerAcceptDto = {
+    id: string;
+}
