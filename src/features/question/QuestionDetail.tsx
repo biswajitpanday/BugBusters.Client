@@ -2,14 +2,16 @@ import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
 import { NotFound } from "../misc";
-import { Badge, Col, Row, Spinner } from "react-bootstrap";
+import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
 import { Pluralize } from "@/utils/HelperUtil";
 import { AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
+import { useUser } from "@/lib/Auth";
 
 export const QuestionDetail = () => {
+  const user = useUser().data;
   const { questionId } = useParams();
   !questionId && <NotFound />;
 
@@ -34,78 +36,100 @@ export const QuestionDetail = () => {
 
   return (
     <Authorization allowedRoles={[Roles.Admin, Roles.User]}>
-    <ContentLayout title="">
-      <Row className="mt-3">
-        <Col xs={12}>
-          <h3>{title}</h3>
-        </Col>
-      </Row>
-      <Row className="mt-1">
-        <BbTimeAgo title="Asked" dateTime={createdAt} />
-        <BbTimeAgo title="Modified" dateTime={lastUpdated} />
-      </Row>
+      <ContentLayout title="">
+        <Row className="mt-3">
+          <Col xs={12}>
+            <h3>{title}</h3>
+          </Col>
+        </Row>
+        <Row className="mt-1">
+          <BbTimeAgo title="Asked" dateTime={createdAt} />
+          <BbTimeAgo title="Modified" dateTime={lastUpdated} />
+        </Row>
 
-      <hr />
+        <hr />
 
-      <Row className="pt-3 pb-3">
-        <UpVoteDownVote voteCount={vote} questionId={id} />
-        <Col xs={11}>
-          <p className="">{body}</p>
-          <Row>
-            <Col>
-              {/* Todo: Create a separate Component. */}
-              <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                {createdBy?.firstName || createdBy?.lastName || createdBy?.email}
-                <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
-              </Badge>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+        <Row className="pt-3 pb-3">
+          <UpVoteDownVote voteCount={vote} questionId={id} />
+          <Col xs={11}>
+            <p className="">{body}</p>
+            <Row>
+              <Col>
+                {/* Todo: Create a separate Component. */}
+                <Badge bg="primary" className="float-end bg me-3 rounded-1">
+                  {createdBy?.firstName ||
+                    createdBy?.lastName ||
+                    createdBy?.email}
+                  <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
+                </Badge>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
 
-      <hr />
+        <hr />
 
-      <Row>
-        <Col>
-          <h4>{Pluralize(answers.length, "Answer")}</h4>
-        </Col>
-      </Row>
+        <Row>
+          <Col>
+            <h4>{Pluralize(answers.length, "Answer")}</h4>
+          </Col>
+        </Row>
 
-      {answers.map((item: AnswerResponse) => {
-        const {
-          id,
-          body,
-          createdAt,
-          downVoteCount,
-          isAccepted,
-          upVoteCount,
-          createdBy,
-        } = item;
-        const vote = Math.abs(upVoteCount - downVoteCount);
-        return (
-          <Row className="pt-3 pb-3" key={id}>
-            <UpVoteDownVote voteCount={vote} answerId={id} isAccepted={isAccepted}/>
-            <Col xs={11}>
-              <p className="">{body}</p>
-              <Row>
-                <Col>
-                  <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                    {createdBy?.firstName ||
-                      createdBy?.lastName ||
-                      createdBy?.email}
-                    <BbTimeAgo
-                      title="Answered"
-                      dateTime={createdAt}
-                      size={12}
-                    />
-                  </Badge>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        );
-      })}
-    </ContentLayout>
+        {answers.map((item: AnswerResponse) => {
+          const {
+            id,
+            body,
+            createdAt,
+            downVoteCount,
+            isAccepted,
+            upVoteCount,
+            createdBy,
+          } = item;
+          const vote = Math.abs(upVoteCount - downVoteCount);
+
+          const acceptAnswer = async (id: string) => {
+            console.log(id);
+          };
+
+          return (
+            <Row className="pt-3 pb-3" key={id}>
+              <UpVoteDownVote
+                voteCount={vote}
+                answerId={id}
+                isAccepted={isAccepted}
+              />
+              <Col xs={11}>
+                <p className="">{body}</p>
+                <Row>
+                  <Col>
+                    <Badge bg="primary" className="float-end bg me-3 rounded-1">
+                      {createdBy?.firstName ||
+                        createdBy?.lastName ||
+                        createdBy?.email}
+                      <BbTimeAgo
+                        title="Answered"
+                        dateTime={createdAt}
+                        size={12}
+                      />
+                    </Badge>
+                    {user?.id !== createdBy?.id && (
+                      <Button
+                        type="button"
+                        variant="outline-primary"
+                        size="sm"
+                        className="float-end me-2"
+                        onClick={() => acceptAnswer(id)}
+                      >
+                        Accept
+                      </Button>
+                    )}
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          );
+        })}
+      </ContentLayout>
     </Authorization>
   );
 };
