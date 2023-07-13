@@ -8,6 +8,7 @@ import { Pluralize } from "@/utils/HelperUtil";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
+import parse from "html-react-parser";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -49,16 +50,12 @@ export const QuestionList = () => {
                       {title}
                     </Link>
                   </div>
-                  <p>{body}</p>
+                  <p>{parse(body)}</p>
                   <Badge bg="primary" className="float-end bg me-3 rounded-1">
                     {createdBy?.firstName ||
                       createdBy?.lastName ||
                       createdBy?.email}
-                    <BbTimeAgo
-                      title="Asked"
-                      dateTime={createdAt}
-                      size={12}
-                    />
+                    <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                   </Badge>
                 </Col>
               </Row>

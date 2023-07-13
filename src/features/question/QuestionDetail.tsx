@@ -11,11 +11,14 @@ import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
 import { useAnswerAccept } from "./api/Answer.api";
 import { useState } from "react";
+import parse from "html-react-parser";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
   const answerAcceptQuery = useAnswerAccept();
-  const [answerAcceptDto, setAnswerAcceptDto] = useState<AnswerAcceptDto>({id: ""});
+  const [answerAcceptDto, setAnswerAcceptDto] = useState<AnswerAcceptDto>({
+    id: "",
+  });
   const { questionId } = useParams();
   !questionId && <NotFound />;
 
@@ -56,7 +59,7 @@ export const QuestionDetail = () => {
         <Row className="pt-3 pb-3">
           <UpVoteDownVote voteCount={vote} questionId={id} />
           <Col xs={11}>
-            <p className="">{body}</p>
+            <p className="">{parse(body)}</p>
             <Row>
               <Col>
                 {/* Todo: Create a separate Component. */}
@@ -92,13 +95,13 @@ export const QuestionDetail = () => {
           const vote = Math.abs(upVoteCount - downVoteCount);
 
           const acceptAnswer = async (id: string) => {
-            setAnswerAcceptDto({id: id});
+            setAnswerAcceptDto({ id: id });
             const res = await answerAcceptQuery.mutateAsync({
               ...answerAcceptDto,
-              id
+              id,
             });
             console.log(res);
-            // todo: Show realtime update 
+            // todo: Show realtime update
           };
 
           return (
@@ -122,7 +125,7 @@ export const QuestionDetail = () => {
                         size={12}
                       />
                     </Badge>
-                    {(user?.id !== createdBy?.id && !isAccepted) && (
+                    {user?.id !== createdBy?.id && !isAccepted && (
                       <Button
                         type="button"
                         variant="outline-primary"
