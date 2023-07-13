@@ -21,4 +21,8 @@ export const ApiRouteConstant = {
     Root: () => "vote/",
     Create: () => `${ApiRouteConstant.Question.Root()}create`,
   },
+  Answer: {
+    Root: () => "Answer/",
+    Accept: () => `${ApiRouteConstant.Answer.Root()}Accept`,
+  },
 };
