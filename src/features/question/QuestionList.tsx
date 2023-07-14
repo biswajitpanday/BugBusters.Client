@@ -9,6 +9,8 @@ import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
 import parse from "html-react-parser";
+import LinesEllipsis from "react-lines-ellipsis";
+import HTMLEllipsis from "react-lines-ellipsis/lib/html";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -42,15 +44,26 @@ export const QuestionList = () => {
                   </div>
                 </Col>
                 <Col xs={10}>
-                  <div>
-                    <Link
-                      to={`${AppRouteConstant.Questions()}/${id}`}
-                      className="underline-none"
-                    >
-                      {title}
-                    </Link>
-                  </div>
-                  <p>{parse(body)}</p>
+                  <Link
+                    to={`${AppRouteConstant.Questions()}/${id}`}
+                    className="underline-none"
+                  >
+                    <LinesEllipsis
+                      text={title}
+                      maxLine="2"
+                      ellipsis="..."
+                      trimRight
+                      basedOn="letters"
+                      className="fs-5 fw-bolder"
+                    />
+                  </Link>
+                  {/* <HTMLEllipsis
+                    unsafeHTML={body}
+                    maxLine="3"
+                    ellipsis="..."
+                    basedOn="letters"
+                    className="mt-3"
+                  /> */}
                   <Badge bg="primary" className="float-end bg me-3 rounded-1">
                     {createdBy?.firstName ||
                       createdBy?.lastName ||
