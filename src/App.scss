@@ -14,4 +14,8 @@ $primary: #8e44ad;
   font-size: 10px;
 }
 
+.dropdown-toggle::after {
+  content: none !important;
+}
+
 @import "~bootstrap/scss/bootstrap";
