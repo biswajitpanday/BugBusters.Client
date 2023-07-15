@@ -1,5 +1,5 @@
 import { ContentLayout } from "@/components/layout";
-import { NotFound } from "../misc";
+import { PageNotFound } from "../misc";
 import { useParams } from "react-router-dom";
 import { useAppUser } from "./api/User.api";
 import { Spinner } from "react-bootstrap";
@@ -13,15 +13,16 @@ import {
   PhoneFlip,
 } from "react-bootstrap-icons";
 import { BbTimeAgo } from "../question/components/bbTimeAgo/BbTimeAgo";
+import { DataNotFound } from "../misc/DataNotFound";
 
 export const UserDetail = () => {
   const { userId } = useParams();
-  !userId && <NotFound />;
+  !userId && <PageNotFound />;
 
   const userQuery = useAppUser(userId!);
 
   userQuery.isLoading && <Spinner />;
-  if (!userQuery.data) return null; // todo: Create a Data Not Found Component.
+  if (!userQuery.data) return <DataNotFound />; // todo: Create a Data Not Found Component.
 
   const {
     fullName,

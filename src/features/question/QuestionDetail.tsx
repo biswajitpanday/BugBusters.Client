@@ -1,8 +1,8 @@
 import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
-import { NotFound } from "../misc";
-import { Badge, Button, Col, Image, Row, Spinner } from "react-bootstrap";
+import { PageNotFound } from "../misc";
+import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
 import { GetRandomColor, Pluralize } from "@/utils/HelperUtil";
@@ -13,6 +13,7 @@ import { useAnswerAccept } from "./api/Answer.api";
 import { useState } from "react";
 import parse from "html-react-parser";
 import Avatar from "react-avatar";
+import { DataNotFound } from "../misc/DataNotFound";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
@@ -21,12 +22,12 @@ export const QuestionDetail = () => {
     id: "",
   });
   const { questionId } = useParams();
-  !questionId && <NotFound />;
+  !questionId && <PageNotFound />;
 
   const questionQuery = useQuestion(questionId!);
 
   questionQuery.isLoading && <Spinner />;
-  if (!questionQuery.data) return null; // todo: Create a Data Not Found Component.
+  if (!questionQuery.data) return <DataNotFound />;
 
   const {
     id,

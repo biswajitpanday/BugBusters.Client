@@ -8,15 +8,14 @@ import { Pluralize } from "@/utils/HelperUtil";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
-import parse from "html-react-parser";
 import LinesEllipsis from "react-lines-ellipsis";
-import HTMLEllipsis from "react-lines-ellipsis/lib/html";
+import { DataNotFound } from "../misc/DataNotFound";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
 
   questionsQuery.isLoading ?? <Spinner />;
-  if (!questionsQuery.data) return null;
+  if (!questionsQuery.data) return <DataNotFound/>;
 
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>

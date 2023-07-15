@@ -11,12 +11,13 @@ import {
   PersonBoundingBox,
   PhoneFlip,
 } from "react-bootstrap-icons";
+import { DataNotFound } from "../misc/DataNotFound";
 
 export const UserList = () => {
   const userQuery = useAppUsers();
 
   userQuery.isLoading ?? <Spinner />;
-  if (!userQuery.data) return null; // todo: No data found.
+  if (!userQuery.data) return <DataNotFound/>;
 
   return (
     <Authorization allowedRoles={[Roles.Admin]}>
