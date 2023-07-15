@@ -24,19 +24,13 @@ export const UserDetail = () => {
   if (!userQuery.data) return null; // todo: Create a Data Not Found Component.
 
   const {
-    firstName,
-    middleName,
-    lastName,
+    fullName,
     email,
     userName,
     address,
     phoneNumber,
     createdAt,
   } = userQuery.data;
-
-  let fullName = firstName || null;
-  if (middleName) fullName = fullName + " " + middleName;
-  if (lastName) fullName = fullName + " " + lastName;
 
   return (
     <Authorization allowedRoles={[Roles.Admin]}>

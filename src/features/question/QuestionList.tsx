@@ -65,8 +65,7 @@ export const QuestionList = () => {
                     className="mt-3"
                   /> */}
                   <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                    {createdBy?.firstName ||
-                      createdBy?.lastName ||
+                    {createdBy?.fullName ||
                       createdBy?.email}
                     <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                   </Badge>

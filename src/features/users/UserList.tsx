@@ -24,18 +24,12 @@ export const UserList = () => {
         <Row>
           {userQuery.data.map((item) => {
             const {
-              firstName,
-              middleName,
-              lastName,
+              fullName,
               email,
               userName,
               address,
               phoneNumber,
             } = item;
-
-            let fullName = firstName || null;
-            if (middleName) fullName = fullName + " " + middleName;
-            if (lastName) fullName = fullName + " " + lastName;
 
             return (
               <Col xs={3} key={item.id} className="mt-2">

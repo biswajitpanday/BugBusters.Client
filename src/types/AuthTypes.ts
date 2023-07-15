@@ -36,6 +36,7 @@ export type UserProfile = {
     firstName?: string;
     middleName?: string;
     lastName?: string;
+    fullName?: string;
     email: string;
     dateOfBirth?: Date;
     phoneNumber?: string;
