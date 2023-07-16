@@ -8,13 +8,14 @@ import { Pluralize } from "@/utils/HelperUtil";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
-import parse from "html-react-parser";
+import LinesEllipsis from "react-lines-ellipsis";
+import { DataNotFound } from "../misc/DataNotFound";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
 
   questionsQuery.isLoading ?? <Spinner />;
-  if (!questionsQuery.data) return null;
+  if (!questionsQuery.data) return <DataNotFound/>;
 
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
@@ -42,18 +43,28 @@ export const QuestionList = () => {
                   </div>
                 </Col>
                 <Col xs={10}>
-                  <div>
-                    <Link
-                      to={`${AppRouteConstant.Questions()}/${id}`}
-                      className="underline-none"
-                    >
-                      {title}
-                    </Link>
-                  </div>
-                  <p>{parse(body)}</p>
+                  <Link
+                    to={`${AppRouteConstant.Questions()}/${id}`}
+                    className="underline-none"
+                  >
+                    <LinesEllipsis
+                      text={title}
+                      maxLine="2"
+                      ellipsis="..."
+                      trimRight
+                      basedOn="letters"
+                      className="fs-5 fw-bolder"
+                    />
+                  </Link>
+                  {/* <HTMLEllipsis
+                    unsafeHTML={body}
+                    maxLine="3"
+                    ellipsis="..."
+                    basedOn="letters"
+                    className="mt-3"
+                  /> */}
                   <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                    {createdBy?.firstName ||
-                      createdBy?.lastName ||
+                    {createdBy?.fullName ||
                       createdBy?.email}
                     <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                   </Badge>

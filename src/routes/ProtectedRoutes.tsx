@@ -1,7 +1,7 @@
 import { Spinner } from "@/components/elements/spinner";
 import { MainLayout } from "@/components/layout";
 import { AppRouteConstant } from "@/constant";
-import { NotFound } from "@/features/misc";
+import { PageNotFound } from "@/features/misc";
 import { lazyImport } from "@/utils/LazyImportUtil";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
@@ -29,7 +29,7 @@ export const protectedRoutes = [
       { path: `${AppRouteConstant.Questions()}/*`, element: <QuestionRoutes /> },
       { path: `${AppRouteConstant.Users()}/*`, element: <UserRoutes /> },
       // { path: "/profile", element: <Profile /> },
-      { path: "*", element: <NotFound /> },
+      { path: "*", element: <PageNotFound /> },
     ],
   },
 ];

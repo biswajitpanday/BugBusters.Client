@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const NotFound = () => {
+export const PageNotFound = () => {
   return (
     <Container fluid className="d-flex align-items-center justify-content-center vh-container-100">
       <div className="text-center">

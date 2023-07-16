@@ -1,17 +1,19 @@
 import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
-import { NotFound } from "../misc";
+import { PageNotFound } from "../misc";
 import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
-import { Pluralize } from "@/utils/HelperUtil";
+import { GetRandomColor, Pluralize } from "@/utils/HelperUtil";
 import { AnswerAcceptDto, AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
 import { useAnswerAccept } from "./api/Answer.api";
 import { useState } from "react";
 import parse from "html-react-parser";
+import Avatar from "react-avatar";
+import { DataNotFound } from "../misc/DataNotFound";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
@@ -20,12 +22,12 @@ export const QuestionDetail = () => {
     id: "",
   });
   const { questionId } = useParams();
-  !questionId && <NotFound />;
+  !questionId && <PageNotFound />;
 
   const questionQuery = useQuestion(questionId!);
 
   questionQuery.isLoading && <Spinner />;
-  if (!questionQuery.data) return null; // todo: Create a Data Not Found Component.
+  if (!questionQuery.data) return <DataNotFound />;
 
   const {
     id,
@@ -50,8 +52,12 @@ export const QuestionDetail = () => {
           </Col>
         </Row>
         <Row className="mt-1">
-          <BbTimeAgo title="Asked" dateTime={createdAt} />
-          <BbTimeAgo title="Modified" dateTime={lastUpdated} />
+          <Col sm={2}>
+            <BbTimeAgo title="Asked" dateTime={createdAt} />
+          </Col>
+          <Col sm={2}>
+            <BbTimeAgo title="Modified" dateTime={lastUpdated} />
+          </Col>
         </Row>
 
         <hr />
@@ -64,11 +70,18 @@ export const QuestionDetail = () => {
               <Col>
                 {/* Todo: Create a separate Component. */}
                 <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                  {createdBy?.firstName ||
-                    createdBy?.lastName ||
-                    createdBy?.email}
+                  {/* <Image src="" alt=""/> */}
+                  {createdBy?.fullName || createdBy?.email}{" "}
                   <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                 </Badge>
+                <Avatar
+                  name={createdBy?.fullName || createdBy?.email}
+                  size="23"
+                  unstyled={false}
+                  src=""
+                  className="float-end me-1"
+                  color={GetRandomColor()}
+                />
               </Col>
             </Row>
           </Col>
@@ -116,15 +129,21 @@ export const QuestionDetail = () => {
                 <Row>
                   <Col>
                     <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                      {createdBy?.firstName ||
-                        createdBy?.lastName ||
-                        createdBy?.email}
+                      {createdBy?.fullName || createdBy?.email}
                       <BbTimeAgo
                         title="Answered"
                         dateTime={createdAt}
                         size={12}
                       />
                     </Badge>
+                    <Avatar
+                      name={createdBy?.fullName || createdBy?.email}
+                      size="23"
+                      unstyled={false}
+                      src=""
+                      className="float-end me-1"
+                      color={GetRandomColor()}
+                    />
                     {user?.id !== createdBy?.id && !isAccepted && (
                       <Button
                         type="button"

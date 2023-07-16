@@ -1,3 +1,3 @@
 export * from "./Landing";
-export * from "./NotFound";
+export * from "./PageNotFound";
 export * from "./Forbidden";

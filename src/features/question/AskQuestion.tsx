@@ -10,7 +10,7 @@ export const AskQuestion = () => {
   };
 
   return (
-    <Authorization allowedRoles={[Roles.User]}>
+    <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
       <ContentLayout title="Ask Question">
         <CkEditor />
       </ContentLayout>
