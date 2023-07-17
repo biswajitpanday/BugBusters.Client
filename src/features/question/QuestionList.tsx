@@ -74,7 +74,7 @@ export const QuestionList = () => {
                       size="20"
                       unstyled={false}
                       src=""
-                      className="float-end me-1"
+                      className="float-end me-1 rounded"
                       textSizeRatio={2}
                       color={GetRandomDarkColor()}
                     />
