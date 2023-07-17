@@ -5,7 +5,7 @@ import { PageNotFound } from "../misc";
 import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
-import { GetRandomColor, Pluralize } from "@/utils/HelperUtil";
+import { GetRandomColor, GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
 import { AnswerAcceptDto, AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
@@ -74,13 +74,16 @@ export const QuestionDetail = () => {
                   {createdBy?.fullName || createdBy?.email}{" "}
                   <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                 </Badge>
+                {typeof createdBy?.fullName}
                 <Avatar
-                  name={createdBy?.fullName || createdBy?.email}
-                  size="23"
+                  //name={createdBy?.fullName === "" ? createdBy?.email : createdBy?.fullName}
+                  name={createdBy?.email}
+                  size="20"
                   unstyled={false}
                   src=""
                   className="float-end me-1"
-                  color={GetRandomColor()}
+                  textSizeRatio={2}
+                  color={GetRandomDarkColor()}
                 />
               </Col>
             </Row>
@@ -142,7 +145,8 @@ export const QuestionDetail = () => {
                       unstyled={false}
                       src=""
                       className="float-end me-1"
-                      color={GetRandomColor()}
+                      textSizeRatio={2}
+                      color={GetRandomDarkColor()}
                     />
                     {user?.id !== createdBy?.id && !isAccepted && (
                       <Button
