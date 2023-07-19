@@ -33,15 +33,16 @@ export const TopNavBar = () => {
           <Nav.Link href={AppRouteConstant.AskQuestion()}>Ask Question</Nav.Link>
         </Nav>
         <Form className="d-flex">
-          <FormControl type="text" placeholder="Search" size="sm" width={600}/>
+          <FormControl type="t`ext" placeholder="Search" size="sm" width={600}/>
         </Form>
         <Nav className="mr-5">
-          <NavDropdown title={<Avatar  name={user?.fullName || user?.email}
+          <NavDropdown title={<Avatar name={user?.fullName || user?.email}
                       size="30"
                       unstyled={false}
                       src=""
                       className="float-end me-1"
                       round={true}
+                      textSizeRatio={2}
                       color={GetRandomDarkColor()} />} id="nav-add" align="end" >
             <NavDropdown.Item href={AppRouteConstant.UserProfile()}>Profile</NavDropdown.Item>
             <NavDropdown.Item href={AppRouteConstant.Settings()}>Settings</NavDropdown.Item>

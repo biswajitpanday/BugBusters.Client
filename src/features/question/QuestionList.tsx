@@ -4,12 +4,13 @@ import { Spinner } from "@/components/elements/spinner";
 import { Badge, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
-import { Pluralize } from "@/utils/HelperUtil";
+import { GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
 import LinesEllipsis from "react-lines-ellipsis";
 import { DataNotFound } from "../misc/DataNotFound";
+import Avatar from "react-avatar";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -68,6 +69,15 @@ export const QuestionList = () => {
                       createdBy?.email}
                     <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
                   </Badge>
+                  <Avatar
+                      name={createdBy?.fullName || createdBy?.email}
+                      size="20"
+                      unstyled={false}
+                      src=""
+                      className="float-end me-1 rounded"
+                      textSizeRatio={2}
+                      color={GetRandomDarkColor()}
+                    />
                 </Col>
               </Row>
             </Card>
