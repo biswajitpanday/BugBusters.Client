@@ -2,9 +2,9 @@ import { ContentLayout } from "@/components/layout";
 import { PageNotFound } from "../misc";
 import { useParams } from "react-router-dom";
 import { useAppUser } from "./api/User.api";
-import { Spinner } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import { Authorization } from "@/lib/Authorization";
-import { Roles } from "@/types";
+import { QuestionResponse, Roles } from "@/types";
 import {
   Balloon,
   EnvelopeAt,
@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap-icons";
 import { BbTimeAgo } from "../question/components/bbTimeAgo/BbTimeAgo";
 import { DataNotFound } from "../misc/DataNotFound";
+import { Question } from "../question/components/Question";
 
 export const UserDetail = () => {
   const { userId } = useParams();
@@ -31,6 +32,7 @@ export const UserDetail = () => {
     address,
     phoneNumber,
     createdAt,
+    questions,
   } = userQuery.data;
 
   return (
@@ -65,6 +67,20 @@ export const UserDetail = () => {
             <BbTimeAgo title="Member since" dateTime={createdAt} size={12} />
           </div>
         )}
+        <hr />
+        <h4>Asked Questions</h4>
+        {questions !== undefined &&
+          questions?.length > 0 &&
+          questions?.map((item: QuestionResponse) => {
+            item.createdBy = userQuery.data;
+            return (
+              <Row>
+                <Col>
+                  <Question data={item} />
+                </Col>
+              </Row>
+            );
+          })}
       </ContentLayout>
     </Authorization>
   );

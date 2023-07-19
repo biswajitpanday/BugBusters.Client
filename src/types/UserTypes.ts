@@ -1,5 +1,6 @@
 import { UserProfile } from "./AuthTypes";
 import { BaseResponse } from "./BaseResponse";
+import { QuestionResponse } from "./QuestionTypes";
 
 export type UserResponse = {
     userName?: string;
@@ -7,4 +8,5 @@ export type UserResponse = {
     lockoutEnabled: boolean;
     accountId: string;
     address?: string;
+    questions?: QuestionResponse[]
 } & BaseResponse & UserProfile; 

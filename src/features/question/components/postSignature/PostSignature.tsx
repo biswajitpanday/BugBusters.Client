@@ -23,7 +23,7 @@ export const PostSignature = ({
     <div className={`float-end me-3 ${className}`}>
       {showAvatar && (
         <Avatar
-          name={!!createdBy?.fullName ? createdBy?.email: createdBy?.fullName}
+          name={createdBy?.fullName === null ? createdBy?.email: createdBy?.fullName}
           size="20"
           unstyled={false}
           src=""
@@ -33,7 +33,7 @@ export const PostSignature = ({
         />
       )}
       <Badge bg="primary" className="bg rounded-1 small">
-        {!!createdBy?.fullName ? createdBy?.email: createdBy?.fullName}{" "}
+        {createdBy?.fullName === null ? createdBy?.email: createdBy?.fullName}{" "}
         <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
       </Badge>
     </div>
