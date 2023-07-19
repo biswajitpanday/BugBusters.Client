@@ -1,5 +1,3 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./CkEditor.Style.scss";
 import { Button, Container } from "react-bootstrap";
 import { useCreateQuestion } from "../../api/Question.api";
@@ -32,10 +30,6 @@ export const CkEditor = () => {
     console.log(res);
   };
 
-  const editorConfiguration = {
-    // toolbar: ["bold", "italic"],
-  };
-
   return (
     <>
       <Container>
@@ -51,30 +45,7 @@ export const CkEditor = () => {
               required={true}
             />
           </div>
-        </form>
-
-        <CKEditor
-          editor={ClassicEditor}
-          config={editorConfiguration}
-          data="<p>Tell Me your problem please...</p>"
-          onReady={(editor) => {
-            // You can store the "editor" and use when it is needed.
-            console.log("Editor is ready to use!", editor);
-            //editor.ui.view.editable.editableElement.style.height = '300px';
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            setQuestionCreateData({ ...questionCreateData, body: data });
-            console.log("onChange: " + { event, editor, data });
-            console.log("State : " + data);
-          }}
-          onBlur={(event, editor) => {
-            console.log("Blur.", editor);
-          }}
-          onFocus={(event, editor) => {
-            console.log("Focus.", editor);
-          }}
-        />
+        </form>       
 
         <Button
           type="button"
