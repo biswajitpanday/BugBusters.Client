@@ -1,4 +1,3 @@
-import { Col } from "react-bootstrap";
 import TimeAgo from "react-timeago";
 
 type BbTimeAgoProps = {
@@ -8,13 +7,13 @@ type BbTimeAgoProps = {
 };
 
 // todo : Make it same line. Add Suffix. Separate size to a constant.
-export const BbTimeAgo = ({ title, dateTime, size = 2 }: BbTimeAgoProps) => {
+export const BbTimeAgo = ({ title, dateTime }: BbTimeAgoProps) => {
   return (
-    <>
+    <small>
       {title}{" "}
       <strong>
         <TimeAgo date={dateTime} />
       </strong>
-    </>
+    </small>
   );
 };
