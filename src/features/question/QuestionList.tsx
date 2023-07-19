@@ -1,16 +1,14 @@
 import { ContentLayout } from "@/components/layout";
 import { useQuestions } from "./api/Question.api";
 import { Spinner } from "@/components/elements/spinner";
-import { Badge, Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
-import { GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
-import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
+import { Pluralize } from "@/utils/HelperUtil";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
 import LinesEllipsis from "react-lines-ellipsis";
 import { DataNotFound } from "../misc/DataNotFound";
-import Avatar from "react-avatar";
 import { PostSignature } from "./components/postSignature/PostSignature";
 
 export const QuestionList = () => {

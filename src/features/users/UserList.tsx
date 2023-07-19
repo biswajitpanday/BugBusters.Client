@@ -42,7 +42,7 @@ export const UserList = () => {
                         to={`${AppRouteConstant.Users()}/${item.id}`}
                         className="underline-none"
                       >
-                        {fullName !== null ? fullName : `@${userName}`}
+                        {fullName == null ? `@${userName}` : fullName} 
                       </Link>
                     </div>
 
