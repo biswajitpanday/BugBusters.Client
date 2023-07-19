@@ -1,7 +1,7 @@
 import { Button, Container } from "react-bootstrap";
 import { useCreateQuestion } from "../../api/Question.api";
 import { QuestionCreateDto } from "@/types";
-import { useState, ChangeEvent, useEffect, useRef } from "react";
+import { useState, ChangeEvent, useRef } from "react";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
 import { TINY_MCE_API_KEY } from "@/config";
@@ -16,7 +16,6 @@ export const TinyMceEditor = () => {
       title: "",
       body: "",
     });
-
   const editorRef = useRef(null);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +32,6 @@ export const TinyMceEditor = () => {
       toast("Title can't be empty!");
       return;
     }
-    console.log("submit clicked...");
     const res = await createQuestionQuery.mutateAsync({
       ...questionCreateData,
     });
