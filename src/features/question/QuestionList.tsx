@@ -11,12 +11,13 @@ import { QuestionResponse, Roles } from "@/types";
 import LinesEllipsis from "react-lines-ellipsis";
 import { DataNotFound } from "../misc/DataNotFound";
 import Avatar from "react-avatar";
+import { PostSignature } from "./components/postSignature/PostSignature";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
 
   questionsQuery.isLoading ?? <Spinner />;
-  if (!questionsQuery.data) return <DataNotFound/>;
+  if (!questionsQuery.data) return <DataNotFound />;
 
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
@@ -64,20 +65,7 @@ export const QuestionList = () => {
                     basedOn="letters"
                     className="mt-3"
                   /> */}
-                  <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                    {createdBy?.fullName ||
-                      createdBy?.email}
-                    <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
-                  </Badge>
-                  <Avatar
-                      name={createdBy?.fullName || createdBy?.email}
-                      size="20"
-                      unstyled={false}
-                      src=""
-                      className="float-end me-1 rounded"
-                      textSizeRatio={2}
-                      color={GetRandomDarkColor()}
-                    />
+                  <PostSignature createdBy={createdBy} createdAt={createdAt} className="mt-1" />
                 </Col>
               </Row>
             </Card>

@@ -5,7 +5,7 @@ import { PageNotFound } from "../misc";
 import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
-import { GetRandomColor, GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
+import { GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
 import { AnswerAcceptDto, AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
@@ -14,6 +14,7 @@ import { useState } from "react";
 import parse from "html-react-parser";
 import Avatar from "react-avatar";
 import { DataNotFound } from "../misc/DataNotFound";
+import { PostSignature } from "./components/postSignature/PostSignature";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
@@ -68,23 +69,7 @@ export const QuestionDetail = () => {
             <p className="">{parse(body)}</p>
             <Row>
               <Col>
-                {/* Todo: Create a separate Component. */}
-                <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                  {/* <Image src="" alt=""/> */}
-                  {createdBy?.fullName || createdBy?.email}{" "}
-                  <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
-                </Badge>
-                {typeof createdBy?.fullName}
-                <Avatar
-                  //name={createdBy?.fullName === "" ? createdBy?.email : createdBy?.fullName}
-                  name={createdBy?.email}
-                  size="20"
-                  unstyled={false}
-                  src=""
-                  className="float-end me-1"
-                  textSizeRatio={2}
-                  color={GetRandomDarkColor()}
-                />
+                <PostSignature createdBy={createdBy} createdAt={createdAt} />
               </Col>
             </Row>
           </Col>
@@ -130,30 +115,14 @@ export const QuestionDetail = () => {
               <Col xs={11}>
                 <p className="">{body}</p>
                 <Row>
-                  <Col>
-                    <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                      {createdBy?.fullName || createdBy?.email}
-                      <BbTimeAgo
-                        title="Answered"
-                        dateTime={createdAt}
-                        size={12}
-                      />
-                    </Badge>
-                    <Avatar
-                      name={createdBy?.fullName || createdBy?.email}
-                      size="23"
-                      unstyled={false}
-                      src=""
-                      className="float-end me-1"
-                      textSizeRatio={2}
-                      color={GetRandomDarkColor()}
-                    />
+                  <Col className="mt-1">
+                    <PostSignature createdBy={createdBy} createdAt={createdAt}/>
                     {user?.id !== createdBy?.id && !isAccepted && (
                       <Button
                         type="button"
                         variant="outline-primary"
                         size="sm"
-                        className="float-end me-2"
+                        className="btn-xs float-end me-2 mb-auto"
                         onClick={() => acceptAnswer(id)}
                       >
                         Accept

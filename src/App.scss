@@ -18,4 +18,12 @@ $primary: #8e44ad;
   content: none !important;
 }
 
+.btn-xs {
+  padding: 0.25rem 0.4rem !important; 
+  font-size: .65rem !important;
+  line-height: .8 !important;
+  border-radius: 0.2rem !important;
+  margin-top: 4px !important;
+}
+
 @import "~bootstrap/scss/bootstrap";

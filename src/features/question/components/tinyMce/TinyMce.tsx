@@ -8,6 +8,8 @@ import { TINY_MCE_API_KEY } from "@/config";
 import { useNavigate } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
 
+
+//todo: Need to refactor this component. It should have only tinyMce Nothing more. Rest should be move to AskQuestion Component.
 export const TinyMceEditor = () => {
   const createQuestionQuery = useCreateQuestion();
   const navigate = useNavigate();
@@ -102,8 +104,9 @@ export const TinyMceEditor = () => {
         size="sm"
         className="mt-2"
         onClick={() => handleSubmit()}
+        disabled={createQuestionQuery.isLoading}
       >
-        Submit
+        Post Your Question
       </Button>
     </Container>
   );
