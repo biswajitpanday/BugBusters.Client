@@ -37,7 +37,9 @@ export type UserProfile = {
     middleName?: string;
     lastName?: string;
     fullName?: string | undefined;
+    userName: string;
     email: string;
+    address?: string;
     dateOfBirth?: Date;
     phoneNumber?: string;
     role: keyof typeof Roles;
