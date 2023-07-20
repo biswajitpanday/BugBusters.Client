@@ -19,7 +19,7 @@ export const QuestionList = () => {
         <p>Total {Pluralize(questionsQuery.data.length, "Question")} Asked</p>
         {questionsQuery.data.map((item: QuestionResponse) => {
           return (
-            <Question data={item} />
+            <Question key={item.id} data={item} />
           );
         })}
       </ContentLayout>

@@ -9,6 +9,7 @@ export type QuestionResponse = {
     createdById: string;
     createdBy: UserProfile;
     answers: AnswerResponse[];
+    hasAcceptedAnswer: boolean;
 } & BaseResponse;
 
 export type QuestionCreateDto = {

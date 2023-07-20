@@ -6,6 +6,7 @@ import { Pluralize } from "@/utils/HelperUtil";
 import { Card, Col, Row } from "react-bootstrap";
 import { QuestionResponse } from "@/types";
 import { AppRouteConstant } from "@/constant";
+import { Check2 } from "react-bootstrap-icons";
 
 type QuestionProps = {
   data: QuestionResponse;
@@ -22,15 +23,27 @@ export const Question = ({ data, showBody = false }: QuestionProps) => {
     answerCount,
     createdBy,
     createdAt,
+    hasAcceptedAnswer,
   } = data;
   return (
     <Card className="mt-1" key={id}>
       <Row className="pt-3 pb-3">
         <Col xs={2}>
-          <div className="text-end">
-            <div>{Pluralize(upVoteCount, "UpVote")}</div>
-            <div>{Pluralize(downVoteCount, "DownVote")}</div>
-            <div>{Pluralize(answerCount, "Answer")}</div>
+          <div className="text-end small">
+            <div>{Pluralize(upVoteCount, "up-vote")}</div>
+            <div>{Pluralize(downVoteCount, "down-vote")}</div>
+            <div>
+              <span
+                className={` small ${
+                  answerCount > 0
+                    ? "badge-outline border-success"
+                    : ""
+                } ${hasAcceptedAnswer ? "bg-success text-black" : ""}`}
+              >
+                {hasAcceptedAnswer && <Check2 />}{" "}
+                {Pluralize(answerCount, "answer")}
+              </span>
+            </div>
           </div>
         </Col>
         <Col xs={10}>
