@@ -45,7 +45,7 @@ export const TopNavBar = () => {
                       textSizeRatio={2}
                       color={GetRandomDarkColor()} />} id="nav-add" align="end" >
             <NavDropdown.Item href={AppRouteConstant.UserProfile()}>Profile</NavDropdown.Item>
-            <NavDropdown.Item href={AppRouteConstant.Settings()}>Settings</NavDropdown.Item>
+            {/* <NavDropdown.Item href={AppRouteConstant.Settings()}>Settings</NavDropdown.Item> */}
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={() => logout.mutate({})}>Log out</NavDropdown.Item>
           </NavDropdown>
