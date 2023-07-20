@@ -24,5 +24,6 @@ export const ApiRouteConstant = {
   Answer: {
     Root: () => "Answer/",
     Accept: () => `${ApiRouteConstant.Answer.Root()}Accept`,
+    Create: () => `${ApiRouteConstant.Answer.Root()}`,
   },
 };
