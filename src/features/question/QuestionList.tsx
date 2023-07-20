@@ -14,7 +14,8 @@ export const QuestionList = () => {
 
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
-      <ContentLayout title="Question List">
+      <ContentLayout title="All Questions">
+        <p>Total {questionsQuery.data.length} Questions asked.</p>
         {questionsQuery.data.map((item: QuestionResponse) => {
           return (
             <Question data={item} />
