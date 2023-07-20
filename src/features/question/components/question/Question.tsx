@@ -1,4 +1,4 @@
-import { PostSignature } from "./postSignature/PostSignature";
+import { PostSignature } from "../postSignature/PostSignature";
 import LinesEllipsis from "react-lines-ellipsis";
 import HTMLEllipsis from "react-lines-ellipsis/lib/html";
 import { Link } from "react-router-dom";

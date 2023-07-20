@@ -1,4 +1,4 @@
-export const Pluralize = (count: number, noun: string, suffix: string = "s") =>
+export const Pluralize = (count: number|undefined = 0, noun: string, suffix: string = "s") =>
   `${count} ${noun}${count !== 1 ? suffix : ""}`;
 
 export const GetRandomColor = () => {

@@ -14,7 +14,8 @@ import {
 } from "react-bootstrap-icons";
 import { BbTimeAgo } from "../question/components/bbTimeAgo/BbTimeAgo";
 import { DataNotFound } from "../misc/DataNotFound";
-import { Question } from "../question/components/Question";
+import { Question } from "../question/components/question/Question";
+import { Pluralize } from "@/utils/HelperUtil";
 
 export const UserDetail = () => {
   const { userId } = useParams();
@@ -69,18 +70,16 @@ export const UserDetail = () => {
         )}
         <hr />
         <h4>Asked Questions</h4>
+        <p>Total {Pluralize(questions?.length, "Question")} Asked</p>
         {questions !== undefined &&
           questions?.length > 0 &&
-          questions?.map((item: QuestionResponse) => {
-            item.createdBy = userQuery.data;
-            return (
-              <Row>
-                <Col>
-                  <Question data={item} />
-                </Col>
-              </Row>
-            );
-          })}
+          questions?.map((item: QuestionResponse) => (
+            <Row>
+              <Col>
+                <Question data={{ ...item, createdBy: userQuery.data }} />
+              </Col>
+            </Row>
+          ))}
       </ContentLayout>
     </Authorization>
   );

@@ -4,7 +4,8 @@ import { Spinner } from "@/components/elements/spinner";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
 import { DataNotFound } from "../misc/DataNotFound";
-import { Question } from "./components/Question";
+import { Question } from "./components/question/Question";
+import { Pluralize } from "@/utils/HelperUtil";
 
 export const QuestionList = () => {
   const questionsQuery = useQuestions();
@@ -15,7 +16,7 @@ export const QuestionList = () => {
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
       <ContentLayout title="All Questions">
-        <p>Total {questionsQuery.data.length} Questions asked.</p>
+        <p>Total {Pluralize(questionsQuery.data.length, "Question")} Asked</p>
         {questionsQuery.data.map((item: QuestionResponse) => {
           return (
             <Question data={item} />
