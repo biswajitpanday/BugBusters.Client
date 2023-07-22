@@ -1,30 +1,44 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { RegistrationDto } from "@/types/AuthTypes";
 import { useRegister } from "@/lib/Auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
 import "./Auth.Style.scss";
+import { Button, Spinner } from "react-bootstrap";
+import { DataNotFound } from "@/features/misc/DataNotFound";
 
 export const RegistrationForm = () => {
-  const [registerCredentials, setRegisterCredentials] = useState<RegistrationDto>({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    userName: "",
-    email: "",
-    password: "",
-    dateOfBirth: new Date(),
-    phone: "",
-    address: ""
-  });
+  const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(true);
+  const [registerCredentials, setRegisterCredentials] =
+    useState<RegistrationDto>({
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      userName: "",
+      email: "",
+      password: "",
+      dateOfBirth: new Date(),
+      phone: "",
+      address: "",
+    });
   const registration = useRegister();
+
+  useEffect(() => {
+    if(registerCredentials.email !== '' &&  registerCredentials.userName !== '' && registerCredentials.password !== '') 
+      setDisabled(false);
+    else setDisabled(true);
+  }, [registerCredentials.email, registerCredentials.userName, registerCredentials.password])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setRegisterCredentials({ ...registerCredentials, [name]: value });
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    registration.mutate({...registerCredentials});
+    const res = await registration.mutateAsync({ ...registerCredentials });
+
+    registration.isLoading && <Spinner />;
+    res?.id && navigate(AppRouteConstant.Questions());
   };
 
   return (
@@ -105,9 +119,14 @@ export const RegistrationForm = () => {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-              Submit
-            </button>
+            <Button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+              disabled={registration.isLoading || disabled}
+            >
+              Register
+            </Button>
           </div>
           <p className="text-center mt-2">
             Forgot <Link to="#">password?</Link>

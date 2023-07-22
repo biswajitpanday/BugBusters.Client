@@ -12,7 +12,6 @@ import {
   PhoneFlip,
 } from "react-bootstrap-icons";
 import { DataNotFound } from "../misc/DataNotFound";
-import { QuestionList } from "../question/QuestionList";
 
 export const UserList = () => {
   const userQuery = useAppUsers();

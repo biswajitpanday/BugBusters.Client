@@ -2,25 +2,29 @@ import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
 import { PageNotFound } from "../misc";
-import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
-import { GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
-import { AnswerAcceptDto, AnswerResponse, Roles } from "@/types";
+import { Pluralize } from "@/utils/HelperUtil";
+import { AnswerCreateDto, AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
-import { useAnswerAccept } from "./api/Answer.api";
-import { useState } from "react";
-import parse from "html-react-parser";
-import Avatar from "react-avatar";
 import { DataNotFound } from "../misc/DataNotFound";
 import { PostSignature } from "./components/postSignature/PostSignature";
+import { TinyMceEditor } from "./components/tinyMce/TinyMce";
+import { Answer } from "./components/answer/Answer";
+import { useAnswerCreate } from "./api/Answer.api";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import parse from "html-react-parser";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
-  const answerAcceptQuery = useAnswerAccept();
-  const [answerAcceptDto, setAnswerAcceptDto] = useState<AnswerAcceptDto>({
-    id: "",
+
+  const answerCreateQuery = useAnswerCreate();
+  const [answerCreateDto, setAnswerCreateDto] = useState<AnswerCreateDto>({
+    questionId: "",
+    body: "",
   });
   const { questionId } = useParams();
   !questionId && <PageNotFound />;
@@ -43,6 +47,24 @@ export const QuestionDetail = () => {
   } = questionQuery.data;
 
   const vote = Math.abs(upVoteCount - downVoteCount);
+
+  const handleBodyChange = (content: any, editor: any) => {
+    setAnswerCreateDto({ ...answerCreateDto, body: content });
+  };
+
+  const createAnswer = async (questionId: string) => {
+    if (answerCreateDto.body.length <= 0) {
+      toast("Answer can't be empty!");
+      return;
+    }
+    const res = await answerCreateQuery.mutateAsync({
+      ...answerCreateDto,
+      questionId,
+    });
+    // todo: Clear TinyMce.
+    const  data  = res as unknown as AnswerResponse;
+    answers.unshift(data as AnswerResponse);
+  };
 
   return (
     <Authorization allowedRoles={[Roles.Admin, Roles.User]}>
@@ -83,57 +105,29 @@ export const QuestionDetail = () => {
           </Col>
         </Row>
 
-        {answers.map((item: AnswerResponse) => {
-          const {
-            id,
-            body,
-            createdAt,
-            downVoteCount,
-            isAccepted,
-            upVoteCount,
-            createdBy,
-          } = item;
-          const vote = Math.abs(upVoteCount - downVoteCount);
+        {answers.map((item: AnswerResponse) => (
+          <Answer key={item.id} data={item} userId={user?.id} />
+        ))}
 
-          const acceptAnswer = async (id: string) => {
-            setAnswerAcceptDto({ id: id });
-            const res = await answerAcceptQuery.mutateAsync({
-              ...answerAcceptDto,
-              id,
-            });
-            console.log(res);
-            // todo: Show realtime update
-          };
+        <hr />
 
-          return (
-            <Row className="pt-3 pb-3" key={id}>
-              <UpVoteDownVote
-                voteCount={vote}
-                answerId={id}
-                isAccepted={isAccepted}
-              />
-              <Col xs={11}>
-                <p className="">{body}</p>
-                <Row>
-                  <Col className="mt-1">
-                    <PostSignature createdBy={createdBy} createdAt={createdAt}/>
-                    {user?.id !== createdBy?.id && !isAccepted && (
-                      <Button
-                        type="button"
-                        variant="outline-primary"
-                        size="sm"
-                        className="btn-xs float-end me-2 mb-auto"
-                        onClick={() => acceptAnswer(id)}
-                      >
-                        Accept
-                      </Button>
-                    )}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          );
-        })}
+        <Row>
+          <Col sm={12}>
+            <h5>Answer this Question</h5>
+            <TinyMceEditor onContentChange={handleBodyChange} height={300} />
+          </Col>
+          <Col sm={12}>
+            <Button
+              type="button"
+              variant="outline-primary"
+              size="sm"
+              className="mt-2 mb-2"
+              onClick={() => createAnswer(id)}
+            >
+              Post Your Answer
+            </Button>
+          </Col>
+        </Row>
       </ContentLayout>
     </Authorization>
   );
