@@ -16,6 +16,7 @@ export const ApiRouteConstant = {
   User: {
     Root: () => "user/",
     GetById: () => `${ApiRouteConstant.User.Root()}:id`,
+    Profile: () => `${ApiRouteConstant.User.Root()}profile`
   },
   Vote: {
     Root: () => "vote/",

@@ -44,3 +44,10 @@ export type UserProfile = {
     phoneNumber?: string;
     role: keyof typeof Roles;
 } & BaseResponse;
+
+export type ProfileStatistic = {
+    questionAsked: number;
+    answered: number;
+    upVoteCount: number;
+    downVoteCount: number;
+}
