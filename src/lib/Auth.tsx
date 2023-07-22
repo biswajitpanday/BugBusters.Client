@@ -34,7 +34,7 @@ async function logoutFn() {
 
 async function registerFn(data: RegistrationDto) {
   const response = await register(data);
-  const user = await handleResponse(response);
+  const user = handleResponse(response);
   return user;
 }
 
