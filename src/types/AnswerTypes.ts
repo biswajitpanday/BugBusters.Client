@@ -14,3 +14,8 @@ export type AnswerResponse = {
 export type AnswerAcceptDto = {
     id: string;
 }
+
+export type AnswerCreateDto = {
+    questionId: string;
+    body: string;
+}

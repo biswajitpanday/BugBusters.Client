@@ -10,7 +10,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     <>
       <TopNavBar />
       {/* <SideNavBar /> */}
-      <main>{children}</main>
+      <main className="mt-3">{children}</main>
     </>
   );
 };

@@ -36,7 +36,7 @@ export const TopNavBar = () => {
           <FormControl type="t`ext" placeholder="Search" size="sm" width={600}/>
         </Form>
         <Nav className="mr-5">
-          <NavDropdown title={<Avatar name={user?.fullName || user?.email}
+          <NavDropdown title={<Avatar name={user?.fullName == null ? user?.email : user?.email}
                       size="30"
                       unstyled={false}
                       src=""
@@ -45,7 +45,7 @@ export const TopNavBar = () => {
                       textSizeRatio={2}
                       color={GetRandomDarkColor()} />} id="nav-add" align="end" >
             <NavDropdown.Item href={AppRouteConstant.UserProfile()}>Profile</NavDropdown.Item>
-            <NavDropdown.Item href={AppRouteConstant.Settings()}>Settings</NavDropdown.Item>
+            {/* <NavDropdown.Item href={AppRouteConstant.Settings()}>Settings</NavDropdown.Item> */}
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={() => logout.mutate({})}>Log out</NavDropdown.Item>
           </NavDropdown>

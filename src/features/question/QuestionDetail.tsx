@@ -2,24 +2,29 @@ import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
 import { PageNotFound } from "../misc";
-import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Row, Spinner } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
-import { GetRandomColor, GetRandomDarkColor, Pluralize } from "@/utils/HelperUtil";
-import { AnswerAcceptDto, AnswerResponse, Roles } from "@/types";
+import { Pluralize } from "@/utils/HelperUtil";
+import { AnswerCreateDto, AnswerResponse, Roles } from "@/types";
 import { Authorization } from "@/lib/Authorization";
 import { useUser } from "@/lib/Auth";
-import { useAnswerAccept } from "./api/Answer.api";
-import { useState } from "react";
-import parse from "html-react-parser";
-import Avatar from "react-avatar";
 import { DataNotFound } from "../misc/DataNotFound";
+import { PostSignature } from "./components/postSignature/PostSignature";
+import { TinyMceEditor } from "./components/tinyMce/TinyMce";
+import { Answer } from "./components/answer/Answer";
+import { useAnswerCreate } from "./api/Answer.api";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import parse from "html-react-parser";
 
 export const QuestionDetail = () => {
   const user = useUser().data;
-  const answerAcceptQuery = useAnswerAccept();
-  const [answerAcceptDto, setAnswerAcceptDto] = useState<AnswerAcceptDto>({
-    id: "",
+
+  const answerCreateQuery = useAnswerCreate();
+  const [answerCreateDto, setAnswerCreateDto] = useState<AnswerCreateDto>({
+    questionId: "",
+    body: "",
   });
   const { questionId } = useParams();
   !questionId && <PageNotFound />;
@@ -42,6 +47,24 @@ export const QuestionDetail = () => {
   } = questionQuery.data;
 
   const vote = Math.abs(upVoteCount - downVoteCount);
+
+  const handleBodyChange = (content: any, editor: any) => {
+    setAnswerCreateDto({ ...answerCreateDto, body: content });
+  };
+
+  const createAnswer = async (questionId: string) => {
+    if (answerCreateDto.body.length <= 0) {
+      toast("Answer can't be empty!");
+      return;
+    }
+    const res = await answerCreateQuery.mutateAsync({
+      ...answerCreateDto,
+      questionId,
+    });
+    // todo: Clear TinyMce.
+    const  data  = res as unknown as AnswerResponse;
+    answers.unshift(data as AnswerResponse);
+  };
 
   return (
     <Authorization allowedRoles={[Roles.Admin, Roles.User]}>
@@ -68,23 +91,7 @@ export const QuestionDetail = () => {
             <p className="">{parse(body)}</p>
             <Row>
               <Col>
-                {/* Todo: Create a separate Component. */}
-                <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                  {/* <Image src="" alt=""/> */}
-                  {createdBy?.fullName || createdBy?.email}{" "}
-                  <BbTimeAgo title="Asked" dateTime={createdAt} size={12} />
-                </Badge>
-                {typeof createdBy?.fullName}
-                <Avatar
-                  //name={createdBy?.fullName === "" ? createdBy?.email : createdBy?.fullName}
-                  name={createdBy?.email}
-                  size="20"
-                  unstyled={false}
-                  src=""
-                  className="float-end me-1"
-                  textSizeRatio={2}
-                  color={GetRandomDarkColor()}
-                />
+                <PostSignature createdBy={createdBy} createdAt={createdAt} />
               </Col>
             </Row>
           </Col>
@@ -98,73 +105,29 @@ export const QuestionDetail = () => {
           </Col>
         </Row>
 
-        {answers.map((item: AnswerResponse) => {
-          const {
-            id,
-            body,
-            createdAt,
-            downVoteCount,
-            isAccepted,
-            upVoteCount,
-            createdBy,
-          } = item;
-          const vote = Math.abs(upVoteCount - downVoteCount);
+        {answers.map((item: AnswerResponse) => (
+          <Answer key={item.id} data={item} userId={user?.id} />
+        ))}
 
-          const acceptAnswer = async (id: string) => {
-            setAnswerAcceptDto({ id: id });
-            const res = await answerAcceptQuery.mutateAsync({
-              ...answerAcceptDto,
-              id,
-            });
-            console.log(res);
-            // todo: Show realtime update
-          };
+        <hr />
 
-          return (
-            <Row className="pt-3 pb-3" key={id}>
-              <UpVoteDownVote
-                voteCount={vote}
-                answerId={id}
-                isAccepted={isAccepted}
-              />
-              <Col xs={11}>
-                <p className="">{body}</p>
-                <Row>
-                  <Col>
-                    <Badge bg="primary" className="float-end bg me-3 rounded-1">
-                      {createdBy?.fullName || createdBy?.email}
-                      <BbTimeAgo
-                        title="Answered"
-                        dateTime={createdAt}
-                        size={12}
-                      />
-                    </Badge>
-                    <Avatar
-                      name={createdBy?.fullName || createdBy?.email}
-                      size="23"
-                      unstyled={false}
-                      src=""
-                      className="float-end me-1"
-                      textSizeRatio={2}
-                      color={GetRandomDarkColor()}
-                    />
-                    {user?.id !== createdBy?.id && !isAccepted && (
-                      <Button
-                        type="button"
-                        variant="outline-primary"
-                        size="sm"
-                        className="float-end me-2"
-                        onClick={() => acceptAnswer(id)}
-                      >
-                        Accept
-                      </Button>
-                    )}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          );
-        })}
+        <Row>
+          <Col sm={12}>
+            <h5>Answer this Question</h5>
+            <TinyMceEditor onContentChange={handleBodyChange} height={300} />
+          </Col>
+          <Col sm={12}>
+            <Button
+              type="button"
+              variant="outline-primary"
+              size="sm"
+              className="mt-2 mb-2"
+              onClick={() => createAnswer(id)}
+            >
+              Post Your Answer
+            </Button>
+          </Col>
+        </Row>
       </ContentLayout>
     </Authorization>
   );
