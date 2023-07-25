@@ -15,7 +15,7 @@ export type SpinnerProps  = {
 export const Spinner = ({
   type = "page",
   size = 60,
-  color = "#36d7b7"
+  color = '#8e44ad'
 }: SpinnerProps) => {
   console.log("Spinner Component Loaded...");
   return (
