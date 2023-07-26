@@ -7,7 +7,7 @@ import {
   UserProfile,
 } from "@/types/AuthTypes";
 import storage from "@/utils/Storage";
-import { login, register } from "@/apis/AuthApi";
+import { login, register } from "@/features/auth/api/AuthApi";
 import { queryClient } from "./ReactQuery";
 import jwtDecode from "jwt-decode";
 import { StorageConstant } from "@/constant";

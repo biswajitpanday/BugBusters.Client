@@ -7,7 +7,7 @@ import { useCreateQuestion } from "./api/Question.api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AppRouteConstant } from "@/constant";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 
 export const AskQuestion = () => {
   const createQuestionQuery = useCreateQuestion();
@@ -35,7 +35,11 @@ export const AskQuestion = () => {
     const res = await createQuestionQuery.mutateAsync({
       ...questionCreateData,
     });
-    if (res !== null) navigate(AppRouteConstant.Questions());
+    createQuestionQuery.isLoading && <Spinner/>
+    createQuestionQuery.isIdle && <Spinner/>
+    if (res?.id !== null) {
+      navigate(AppRouteConstant.Questions());
+    }
   };
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>

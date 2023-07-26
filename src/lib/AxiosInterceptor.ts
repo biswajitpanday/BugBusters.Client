@@ -21,7 +21,7 @@ axios.interceptors.response.use(
   },
   (error: any) => {
     const message = error.response?.data?.message || error.message;
-    console.log(message);
+    console.log("Axios Error: " + message);
     if (error?.response?.status === 409) {
       toast("Data Already Exists!")
     }
