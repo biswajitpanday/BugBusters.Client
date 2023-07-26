@@ -26,7 +26,7 @@ export const Question = ({ data, showBody = false }: QuestionProps) => {
     hasAcceptedAnswer,
   } = data;
   return (
-    <Card className="mt-1" key={id}>
+    <Card className="mt-1">
       <Row className="pt-3 pb-3">
         <Col xs={2}>
           <div className="text-end small">
