@@ -36,7 +36,6 @@ export const Answer = ({ data, userId }: AnswerProps) => {
       ...answerAcceptDto,
       id,
     });
-    console.log(res);
     // todo: Show realtime update
   };
 
