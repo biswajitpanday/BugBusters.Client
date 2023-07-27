@@ -59,7 +59,7 @@ export const QuestionList = () => {
         <ErrorComponent message={error} />
       ) : isSuccess ? (
         <ContentLayout title="All Questions">
-          <p>Total {Pluralize(data.items?.length, "Question")} Asked</p>
+          <p>Total {Pluralize(data.itemCount, "Question")} Asked</p>
           {data.items?.map((item: QuestionResponse, index: number) => {
             return <Question key={item.id} data={item} />;
           })}
