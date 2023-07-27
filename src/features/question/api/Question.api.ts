@@ -1,7 +1,7 @@
 import { ApiRouteConstant } from "@/constant";
 import { axios } from "@/lib/AxiosInterceptor";
 import { queryClient } from "@/lib/ReactQuery";
-import { QuestionCreateDto, QuestionResponse } from "@/types";
+import { PagedResponse, QuestionCreateDto, QuestionResponse } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
@@ -9,22 +9,35 @@ const questionGetAll = async (): Promise<QuestionResponse[]> => {
   return await axios.get(ApiRouteConstant.Question.Root());
 };
 
+const questionGetPaginated = async (page?: number): Promise<PagedResponse<QuestionResponse[]>> => {
+  return await axios.get(`${ApiRouteConstant.Question.GetPaginated()}?page=${page}`);
+};
+
 const questionGetById = async (id: string): Promise<QuestionResponse> => {
   return await axios.get(`${ApiRouteConstant.Question.Root()}${id}`);
 };
 
-const questionCreate = async (request: QuestionCreateDto) => {
+const questionCreate = async (request: QuestionCreateDto): Promise<QuestionResponse> => {
   const body = JSON.stringify(request);
   return await axios.post(ApiRouteConstant.Question.Root(), body);
 };
 
 const questionsQueryKey = ["questions"];
+const questionsWithPagingQueryKey = ["questionsWithPaging"];
 const questionQueryKey = ["question"];
 
 export const useQuestions = () => {
   return useQuery({
     queryKey: questionsQueryKey,
     queryFn: () => questionGetAll(),
+  });
+};
+
+export const usePagedQuestions = (page?: number) => {
+  return useQuery({
+    queryKey: [questionsWithPagingQueryKey, page],
+    queryFn: () => questionGetPaginated(page),
+    keepPreviousData: true
   });
 };
 
@@ -53,7 +66,7 @@ export const useCreateQuestion = () => {
       }
     },
 
-    onSuccess: () => {
+    onSuccess: (data, x) => {
       queryClient.invalidateQueries(questionsQueryKey);
       toast("Question Created Successfully!");
     },
