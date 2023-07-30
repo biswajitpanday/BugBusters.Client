@@ -1,7 +1,12 @@
 import { ApiRouteConstant } from "@/constant";
 import { axios } from "@/lib/AxiosInterceptor";
 import { queryClient } from "@/lib/ReactQuery";
-import { PagedResponse, QuestionCreateDto, QuestionResponse } from "@/types";
+import {
+  PagedRequest,
+  PagedResponse,
+  QuestionCreateDto,
+  QuestionResponse,
+} from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
@@ -9,15 +14,24 @@ const questionGetAll = async (): Promise<QuestionResponse[]> => {
   return await axios.get(ApiRouteConstant.Question.Root());
 };
 
-const questionGetPaginated = async (page?: number): Promise<PagedResponse<QuestionResponse[]>> => {
-  return await axios.get(`${ApiRouteConstant.Question.GetPaginated()}?page=${page}`);
+const questionGetPaginated = async (
+  page?: number,
+  query?: string
+): Promise<PagedResponse<QuestionResponse[]>> => {
+  const url =
+    query === ""
+      ? `${ApiRouteConstant.Question.GetPaginated()}?page=${page}`
+      : `${ApiRouteConstant.Question.GetPaginated()}?page=${page}&query=${query}`;
+  return await axios.get(url);
 };
 
 const questionGetById = async (id: string): Promise<QuestionResponse> => {
   return await axios.get(`${ApiRouteConstant.Question.Root()}${id}`);
 };
 
-const questionCreate = async (request: QuestionCreateDto): Promise<QuestionResponse> => {
+const questionCreate = async (
+  request: QuestionCreateDto
+): Promise<QuestionResponse> => {
   const body = JSON.stringify(request);
   return await axios.post(ApiRouteConstant.Question.Root(), body);
 };
@@ -33,11 +47,19 @@ export const useQuestions = () => {
   });
 };
 
-export const usePagedQuestions = (page?: number) => {
+export const usePagedQuestions = ({ page = 0, query = "" }: PagedRequest) => {
   return useQuery({
     queryKey: [questionsWithPagingQueryKey, page],
-    queryFn: () => questionGetPaginated(page),
-    keepPreviousData: true
+    queryFn: () => questionGetPaginated(page, query),
+    keepPreviousData: true,
+  });
+};
+
+export const useSearchQuestions = ({ page = 0, query = "" }: PagedRequest) => {
+  return useQuery({
+    queryKey: [questionsWithPagingQueryKey, query],
+    queryFn: () => questionGetPaginated(page, query),
+    keepPreviousData: true,
   });
 };
 
