@@ -35,6 +35,16 @@ export const useCreateVote = () => {
       queryClient.invalidateQueries(voteQueryKey);
       toast("Vote Created Successfully!");
     },
+
+    onSettled: (arg1NotUsed, arg2NotUsed, data) => {
+      queryClient.invalidateQueries(voteQueryKey);
+      console.log(
+        "Yes, I have access to props after I receive the response: " +
+          JSON.stringify(data)
+      );
+      return null;
+    },
+
     mutationFn: voteCreate,
   });
 };

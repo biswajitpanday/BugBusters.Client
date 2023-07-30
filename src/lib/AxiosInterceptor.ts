@@ -17,10 +17,10 @@ export const axios = Axios.create({ baseURL: `${API_URL}` });
 axios.interceptors.request.use(axiosInterceptor);
 axios.interceptors.response.use(
   (response: any) => {
-    return response.data;
+    return response?.data;
   },
   (error: any) => {
-    const message = error.response?.data?.message || error.message;
+    const message = error.response?.data || error.response?.data?.message || error.message;
     console.log("Axios Error: " + message);
     if (error?.response?.status === 409) {
       toast("Data Already Exists!")
