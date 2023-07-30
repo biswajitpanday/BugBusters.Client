@@ -37,27 +37,12 @@ const questionCreate = async (
 };
 
 const questionsQueryKey = ["questions"];
-const questionsWithPagingQueryKey = ["questionsWithPaging"];
 const questionQueryKey = ["question"];
 
-export const useQuestions = () => {
-  return useQuery({
-    queryKey: questionsQueryKey,
-    queryFn: () => questionGetAll(),
-  });
-};
 
-export const usePagedQuestions = ({ page = 0, query = "" }: PagedRequest) => {
+export const useQuestions = ({ page = 0, query = "" }: PagedRequest) => {
   return useQuery({
-    queryKey: [questionsWithPagingQueryKey, page],
-    queryFn: () => questionGetPaginated(page, query),
-    keepPreviousData: true,
-  });
-};
-
-export const useSearchQuestions = ({ page = 0, query = "" }: PagedRequest) => {
-  return useQuery({
-    queryKey: [questionsWithPagingQueryKey, query],
+    queryKey: [questionsQueryKey, page, query],
     queryFn: () => questionGetPaginated(page, query),
     keepPreviousData: true,
   });
