@@ -46,7 +46,7 @@ export const PostSignature = ({
       >
         {showName && (
           <Link
-            to={`${AppRouteConstant.Users()}/${createdBy.id}`}
+            to={`${AppRouteConstant.Users()}/${createdBy?.id}`}
             className="underline-none small text"
           >
             {createdBy?.fullName === null
