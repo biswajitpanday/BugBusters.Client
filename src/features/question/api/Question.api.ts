@@ -10,18 +10,14 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-const questionGetAll = async (): Promise<QuestionResponse[]> => {
-  return await axios.get(ApiRouteConstant.Question.Root());
-};
-
-const questionGetPaginated = async (
+const questionGet = async (
   page?: number,
   query?: string
 ): Promise<PagedResponse<QuestionResponse[]>> => {
   const url =
     query === ""
-      ? `${ApiRouteConstant.Question.GetPaginated()}?page=${page}`
-      : `${ApiRouteConstant.Question.GetPaginated()}?page=${page}&query=${query}`;
+      ? `${ApiRouteConstant.Question.Root()}?page=${page}`
+      : `${ApiRouteConstant.Question.Root()}?page=${page}&query=${query}`;
   return await axios.get(url);
 };
 
@@ -43,7 +39,7 @@ const questionQueryKey = ["question"];
 export const useQuestions = ({ page = 0, query = "" }: PagedRequest) => {
   return useQuery({
     queryKey: [questionsQueryKey, page, query],
-    queryFn: () => questionGetPaginated(page, query),
+    queryFn: () => questionGet(page, query),
     keepPreviousData: true,
   });
 };
