@@ -21,8 +21,16 @@ const questionGet = async (
   return await axios.get(url);
 };
 
-const questionGetById = async (id: string): Promise<QuestionResponse> => {
-  return await axios.get(`${ApiRouteConstant.Question.Root()}${id}`);
+const questionGetById = async (
+  id: string,
+  page?: number,
+  query?: string
+): Promise<QuestionResponse> => {
+  const url =
+    query === ""
+      ? `${ApiRouteConstant.Question.Root()}${id}?page=${page}`
+      : `${ApiRouteConstant.Question.Root()}${id}?page=${page}&query=${query}`;
+  return await axios.get(url);
 };
 
 const questionCreate = async (
@@ -35,7 +43,6 @@ const questionCreate = async (
 const questionsQueryKey = ["questions"];
 const questionQueryKey = ["question"];
 
-
 export const useQuestions = ({ page = 0, query = "" }: PagedRequest) => {
   return useQuery({
     queryKey: [questionsQueryKey, page, query],
@@ -44,10 +51,11 @@ export const useQuestions = ({ page = 0, query = "" }: PagedRequest) => {
   });
 };
 
-export const useQuestion = (questionId: string) => {
+export const useQuestion = ({ questionId = "", page = 0, query = "" }) => {
   return useQuery({
-    queryKey: [questionQueryKey, questionId],
-    queryFn: () => questionGetById(questionId),
+    queryKey: [questionQueryKey, questionId, page, query],
+    queryFn: () => questionGetById(questionId, page, query),
+    keepPreviousData: true,
   });
 };
 

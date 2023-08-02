@@ -2,7 +2,7 @@ import { ContentLayout } from "@/components/layout";
 import { useQuestion } from "./api/Question.api";
 import { useParams } from "react-router-dom";
 import { PageNotFound } from "../misc";
-import { Button, Col, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { BbTimeAgo } from "./components/bbTimeAgo/BbTimeAgo";
 import { UpVoteDownVote } from "./components/upVoteDownVote/UpVoteDownVote";
 import { Pluralize } from "@/utils/HelperUtil";
@@ -14,11 +14,19 @@ import { PostSignature } from "./components/postSignature/PostSignature";
 import { TinyMceEditor } from "./components/tinyMce/TinyMce";
 import { Answer } from "./components/answer/Answer";
 import { useAnswerCreate } from "./api/Answer.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 import parse from "html-react-parser";
+import { useSearchContext } from "@/providers/SearchContext";
+import { ErrorComponent } from "../misc/ErrorComponent";
+import { Spinner } from "@/components/elements/spinner";
 
 export const QuestionDetail = () => {
+  const [page, setPage] = useState(0);
+  const [query, setQuery] = useState("");
+  const [hasMore, setHasMore] = useState(true);
+  const { searchTerm } = useSearchContext();
   const user = useUser().data;
 
   const answerCreateQuery = useAnswerCreate();
@@ -26,13 +34,35 @@ export const QuestionDetail = () => {
     questionId: "",
     body: "",
   });
+
   const { questionId } = useParams();
   !questionId && <PageNotFound />;
 
-  const questionQuery = useQuestion(questionId!);
+  const questionQuery = useQuestion({ questionId, page, query });
 
-  questionQuery.isLoading && <Spinner />;
-  if (!questionQuery.data) return <DataNotFound />;
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    data,
+    isFetching,
+    isPreviousData,
+  } = questionQuery;
+
+  useEffect(() => {
+    setQuery(searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    data?.pagedAnswers && data?.pagedAnswers?.totalPages <= page + 1
+      ? setHasMore(false)
+      : setHasMore(true);
+    console.log("Page: " + page);
+  }, [data?.pagedAnswers, data?.pagedAnswers?.totalPages, page]);
+
+  isLoading && <Spinner />;
+  if (!data) return <DataNotFound />;
 
   const {
     id,
@@ -43,8 +73,8 @@ export const QuestionDetail = () => {
     upVoteCount,
     downVoteCount,
     createdBy,
-    answers,
-  } = questionQuery.data;
+    pagedAnswers,
+  } = data!;
 
   const vote = Math.abs(upVoteCount - downVoteCount);
 
@@ -62,12 +92,36 @@ export const QuestionDetail = () => {
       questionId,
     });
     // todo: Clear TinyMce.
-    const  data  = res as unknown as AnswerResponse;
-    answers.unshift(data as AnswerResponse);
+    const data = res as unknown as AnswerResponse;
+    pagedAnswers?.items?.unshift(data as AnswerResponse);
   };
+
+  const pagingButtons = [];
+  if (pagedAnswers) {
+    for (let i = 0; i < pagedAnswers?.totalPages; i++) {
+      pagingButtons.push(
+        <Button
+          type="button"
+          className="btn-xs ms-1 me-1"
+          key={uuidv4()}
+          onClick={() => setPage(i)}
+          disabled={page === i}
+        >
+          {i}
+        </Button>
+      );
+    }
+  }
 
   return (
     <Authorization allowedRoles={[Roles.Admin, Roles.User]}>
+      {isLoading ? (
+        <Spinner />
+      ) : isFetching ? (
+        <Spinner type="component" />
+      ) : isError ? (
+        <ErrorComponent message={error as string} />
+      ) : isSuccess ? (
       <ContentLayout title="">
         <Row className="mt-3">
           <Col xs={12}>
@@ -101,13 +155,43 @@ export const QuestionDetail = () => {
 
         <Row>
           <Col>
-            <h4>{Pluralize(answers.length, "Answer")}</h4>
+            <h4>{Pluralize(pagedAnswers?.itemCount, "Answer")}</h4>
           </Col>
         </Row>
 
-        {answers.map((item: AnswerResponse) => (
+        {pagedAnswers?.items?.map((item: AnswerResponse) => (
           <Answer key={item.id} data={item} userId={user?.id} />
         ))}
+
+        {pagedAnswers?.totalPages > 1 && (
+          <div className="text-center mt-2 mb-3">
+            <Button
+              type="button"
+              size="sm"
+              className="btn-xs"
+              onClick={() => setPage((old) => Math.max(old - 1, 0))}
+              disabled={page === 0}
+            >
+              Prev
+            </Button>
+
+            {pagingButtons}
+
+            <Button
+              type="button"
+              size="sm"
+              className="btn-xs"
+              onClick={() => {
+                if (!isPreviousData && hasMore) {
+                  setPage((old) => old + 1);
+                }
+              }}
+              disabled={isPreviousData || !hasMore}
+            >
+              Next
+            </Button>
+          </div>
+        )}
 
         <hr />
 
@@ -129,6 +213,9 @@ export const QuestionDetail = () => {
           </Col>
         </Row>
       </ContentLayout>
+      ) : (
+        <DataNotFound />
+      )}
     </Authorization>
   );
 };
