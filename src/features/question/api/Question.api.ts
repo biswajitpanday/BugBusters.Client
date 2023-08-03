@@ -1,6 +1,6 @@
 import { ApiRouteConstant } from "@/constant";
 import { axios } from "@/lib/AxiosInterceptor";
-import { queryClient } from "@/lib/ReactQuery";
+import { MutationConfig, queryClient } from "@/lib/ReactQuery";
 import {
   PagedRequest,
   PagedResponse,
@@ -59,7 +59,10 @@ export const useQuestion = ({ questionId = "", page = 0, query = "" }) => {
   });
 };
 
-export const useCreateQuestion = () => {
+type UseCreateQuestionOptions = {
+  config?: MutationConfig<typeof questionCreate>;
+};
+export const useCreateQuestion = ({ config }: UseCreateQuestionOptions = {}) => {
   return useMutation({
     onMutate: async (questionCreateDto: QuestionCreateDto) => {
       await queryClient.cancelQueries({ queryKey: questionsQueryKey });
@@ -77,10 +80,11 @@ export const useCreateQuestion = () => {
       }
     },
 
-    onSuccess: (data, x) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(questionsQueryKey);
       toast("Question Created Successfully!");
     },
+    ...config,
     mutationFn: questionCreate,
   });
 };
