@@ -1,9 +1,9 @@
 import { API_URL } from "@/config";
 import storage from "@/utils/Storage";
-import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
+import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
 
-function axiosInterceptor(config: InternalAxiosRequestConfig) {
+function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken();
   if (token) {
     config.headers!.Authorization = `Bearer ${token}`;
@@ -14,19 +14,25 @@ function axiosInterceptor(config: InternalAxiosRequestConfig) {
 }
 
 export const axios = Axios.create({ baseURL: `${API_URL}` });
-axios.interceptors.request.use(axiosInterceptor);
+axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(
   (response: any) => {
-    return response.data;
+    return response?.data;
   },
   (error: any) => {
-    const message = error.response?.data?.message || error.message;
-    console.log("Axios Error: " + message);
-    if (error?.response?.status === 409) {
-      toast("Data Already Exists!")
+    if(error instanceof AxiosError) {
+      const {message, response}  = error;
+      toast(message);
     }
     else {
-      toast(message);
+      const message = error.response?.data || error.response?.data?.message || error.message;
+      console.log("Axios Error: " + message);
+      if (error?.response?.status === 409) {
+        toast("Data Already Exists!")
+      }
+      else {
+        toast(message);
+      }
     }
     return Promise.reject(error);
   }

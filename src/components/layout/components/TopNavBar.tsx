@@ -22,7 +22,7 @@ import { Search, X } from "react-bootstrap-icons";
 export const TopNavBar = () => {
   const logout = useLogout();
   const user = useUser().data;
-  const { setSearchTerm } = useSearchContext();
+  const { setSearchTerm, showSearchBar } = useSearchContext();
   const [searchInput, setSearchInput] = useState("");
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,33 +55,40 @@ export const TopNavBar = () => {
             Ask Question
           </Nav.Link>
         </Nav>
-        <Form className="d-flex">
-          <InputGroup className="" size="sm">
-            <FormControl
-              type="text"
-              placeholder="Search"
-              size="sm"
-              className="input-primary"
-              width={600}
-              value={searchInput}
-              onChange={handleSearchChange}
-            />
-            {searchInput && (
-              <Button type="button" size="sm" variant="outline-secondary" onClick={handleClearClick}>
-                <X/>
+        {showSearchBar && (
+          <Form className="d-flex">
+            <InputGroup className="" size="sm">
+              <FormControl
+                type="text"
+                placeholder="Search"
+                size="sm"
+                className="input-primary"
+                width={600}
+                value={searchInput}
+                onChange={handleSearchChange}
+              />
+              {searchInput && (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline-secondary"
+                  onClick={handleClearClick}
+                >
+                  <X />
+                </Button>
+              )}
+              <Button
+                type="button"
+                size="sm"
+                variant="outline-primary"
+                className=""
+                onClick={handleSearchSubmit}
+              >
+                <Search />
               </Button>
-            )}
-            <Button
-            type="button"
-            size="sm"
-            variant="outline-primary"
-            className=""
-            onClick={handleSearchSubmit}
-          >
-            <Search />
-          </Button>
-          </InputGroup>
-        </Form>
+            </InputGroup>
+          </Form>
+        )}
         <Nav className="mr-5">
           <NavDropdown
             title={

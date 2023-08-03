@@ -1,5 +1,5 @@
 import { ContentLayout } from "@/components/layout";
-import { useSearchQuestions } from "./api/Question.api";
+import { useQuestions } from "./api/Question.api";
 import { Spinner } from "@/components/elements/spinner";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionResponse, Roles } from "@/types";
@@ -16,7 +16,7 @@ export const QuestionList = () => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState("");
   const [hasMore, setHasMore] = useState(true);
-  const questionsQuery = useSearchQuestions({ query });
+  const questionsQuery = useQuestions({ page, query });
   const { searchTerm } = useSearchContext();
 
   const {

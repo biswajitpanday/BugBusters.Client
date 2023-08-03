@@ -2,21 +2,27 @@ import { ContentLayout } from "@/components/layout";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionCreateDto, Roles } from "@/types";
 import { TinyMceEditor } from "./components/tinyMce/TinyMce";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useCreateQuestion } from "./api/Question.api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AppRouteConstant } from "@/constant";
 import { Button, Spinner } from "react-bootstrap";
+import { useSearchContext } from "@/providers/SearchContext";
 
 export const AskQuestion = () => {
   const createQuestionQuery = useCreateQuestion();
   const navigate = useNavigate();
+  const { setShowSearchBar } = useSearchContext();
   const [questionCreateData, setQuestionCreateData] =
     useState<QuestionCreateDto>({
       title: "",
       body: "",
     });
+
+  useEffect(() => {
+    setShowSearchBar(false);
+  }, [setShowSearchBar]);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -35,8 +41,8 @@ export const AskQuestion = () => {
     const res = await createQuestionQuery.mutateAsync({
       ...questionCreateData,
     });
-    createQuestionQuery.isLoading && <Spinner/>
-    createQuestionQuery.isIdle && <Spinner/>
+    createQuestionQuery.isLoading && <Spinner />;
+    createQuestionQuery.isIdle && <Spinner />;
     if (res?.id !== null) {
       navigate(AppRouteConstant.Questions());
     }
@@ -59,7 +65,7 @@ export const AskQuestion = () => {
         </form>
 
         <TinyMceEditor onContentChange={handleBodyChange} />
-        
+
         <Button
           type="button"
           variant="outline-primary"

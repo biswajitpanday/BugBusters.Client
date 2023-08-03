@@ -3,10 +3,17 @@ import { DataNotFound } from "@/features/misc/DataNotFound";
 import { useUserProfile } from "@/features/users/api/User.api";
 import { UserProfileComponent } from "@/features/users/components/userProfile/UserProfileComponent";
 import { UserStatistic } from "@/features/users/components/userStatistic/UserStatistic";
+import { useSearchContext } from "@/providers/SearchContext";
+import { useEffect } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 
 const UserProfilePage = () => {
   const userProfileQuery = useUserProfile();
+  const { setShowSearchBar } = useSearchContext();
+
+  useEffect(() => {
+    setShowSearchBar(false);
+  }, [setShowSearchBar]);
 
   userProfileQuery.isLoading && <Spinner />;
   if (!userProfileQuery.data) return <DataNotFound />;

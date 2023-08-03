@@ -10,7 +10,7 @@ export const ApiRouteConstant = {
   },
   Question: {
     Root: () => "question/",
-    GetPaginated: () => `${ApiRouteConstant.Question.Root()}paginated`,
+    //GetPaginated: () => `${ApiRouteConstant.Question.Root()}paginated`,
     GetById: () => `${ApiRouteConstant.Question.Root()}:id`,
     Create: () => `${ApiRouteConstant.Question.Root()}create`,
   },
