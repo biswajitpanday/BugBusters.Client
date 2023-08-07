@@ -1,7 +1,7 @@
 import { ContentLayout } from "@/components/layout";
 import { Authorization } from "@/lib/Authorization";
 import { Roles } from "@/types";
-import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { useAppUsers } from "./api/User.api";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
@@ -12,18 +12,32 @@ import {
   PhoneFlip,
 } from "react-bootstrap-icons";
 import { DataNotFound } from "../misc/DataNotFound";
+import { ErrorComponent } from "../misc/ErrorComponent";
+import { Spinner } from "@/components/elements/spinner";
 
 export const UserList = () => {
   const userQuery = useAppUsers();
-
-  userQuery.isLoading ?? <Spinner />;
-  if (!userQuery.data) return <DataNotFound/>;
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    data,
+    isFetching,
+  } = userQuery;
 
   return (
     <Authorization allowedRoles={[Roles.Admin]}>
+      {isLoading ? (
+        <Spinner />
+      ) : isFetching ? (
+        <Spinner type="component" />
+      ) : isError ? (
+        <ErrorComponent message={error} />
+      ) : isSuccess ? (
       <ContentLayout title="User List">
         <Row>
-          {userQuery.data.map((item) => {
+          {data.map((item) => {
             const {
               fullName,
               email,
@@ -71,6 +85,9 @@ export const UserList = () => {
           })}
         </Row>
       </ContentLayout>
+      ) : (
+        <DataNotFound />
+      )}
     </Authorization>
   );
 };
