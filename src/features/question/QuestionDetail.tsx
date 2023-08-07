@@ -28,6 +28,7 @@ export const QuestionDetail = () => {
   const [hasMore, setHasMore] = useState(true);
   const { searchTerm } = useSearchContext();
   const user = useUser().data;
+  const [editorKey, setEditorKey] = useState(uuidv4());
 
   const answerCreateQuery = useAnswerCreate();
   const [answerCreateDto, setAnswerCreateDto] = useState<AnswerCreateDto>({
@@ -62,7 +63,7 @@ export const QuestionDetail = () => {
   }, [data?.pagedAnswers, data?.pagedAnswers?.totalPages, page]);
 
   isLoading && <Spinner />;
-  if (!data) return <DataNotFound />;
+  if (!data) return null;
 
   const {
     id,
@@ -91,9 +92,12 @@ export const QuestionDetail = () => {
       ...answerCreateDto,
       questionId,
     });
-    // todo: Clear TinyMce.
+    answerCreateQuery.isLoading && <Spinner />;
+    answerCreateQuery.isIdle && <Spinner />;
+
     const data = res as unknown as AnswerResponse;
     pagedAnswers?.items?.unshift(data as AnswerResponse);
+    setEditorKey(uuidv4());
   };
 
   const pagingButtons = [];
@@ -198,7 +202,7 @@ export const QuestionDetail = () => {
         <Row>
           <Col sm={12}>
             <h5>Answer this Question</h5>
-            <TinyMceEditor onContentChange={handleBodyChange} height={300} />
+            <TinyMceEditor key={editorKey} onContentChange={handleBodyChange} height={300} />
           </Col>
           <Col sm={12}>
             <Button
@@ -207,6 +211,7 @@ export const QuestionDetail = () => {
               size="sm"
               className="mt-2 mb-2"
               onClick={() => createAnswer(id)}
+              disabled={answerCreateQuery.isLoading}
             >
               Post Your Answer
             </Button>

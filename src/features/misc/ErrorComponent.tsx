@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export type ErrorComponentProps = {
-  message?: string;
+  message?: string | unknown;
 };
 
 export const ErrorComponent = ({ message = "" }: ErrorComponentProps) => {

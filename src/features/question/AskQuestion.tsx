@@ -9,11 +9,13 @@ import { toast } from "react-toastify";
 import { AppRouteConstant } from "@/constant";
 import { Button, Spinner } from "react-bootstrap";
 import { useSearchContext } from "@/providers/SearchContext";
+import { v4 as uuidv4 } from "uuid";
 
 export const AskQuestion = () => {
   const createQuestionQuery = useCreateQuestion();
   const navigate = useNavigate();
   const { setShowSearchBar } = useSearchContext();
+  const [editorKey, setEditorKey] = useState(uuidv4());
   const [questionCreateData, setQuestionCreateData] =
     useState<QuestionCreateDto>({
       title: "",
@@ -43,6 +45,7 @@ export const AskQuestion = () => {
     });
     createQuestionQuery.isLoading && <Spinner />;
     createQuestionQuery.isIdle && <Spinner />;
+    setEditorKey(uuidv4());
     if (res?.id !== null) {
       navigate(AppRouteConstant.Questions());
     }
@@ -64,7 +67,7 @@ export const AskQuestion = () => {
           </div>
         </form>
 
-        <TinyMceEditor onContentChange={handleBodyChange} />
+        <TinyMceEditor key={editorKey} onContentChange={handleBodyChange} />
 
         <Button
           type="button"

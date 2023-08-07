@@ -1,5 +1,4 @@
 import { BbTimeAgo } from "@/features/question/components/bbTimeAgo/BbTimeAgo";
-import { useUser } from "@/lib/Auth";
 import { ProfileStatistic, UserProfile } from "@/types";
 import { Card } from "react-bootstrap";
 import {
@@ -7,7 +6,6 @@ import {
   EnvelopeAt,
   GeoAlt,
   PersonBoundingBox,
-  PersonGear,
   PhoneFlip,
 } from "react-bootstrap-icons";
 
@@ -16,7 +14,6 @@ type UserProfileProps = {
 };
 
 export const UserProfileComponent = ({ data }: UserProfileProps) => {
-  //const user = useUser().data;
   const { fullName, userName, email, address, phoneNumber, createdAt } =
     data;
   return (
@@ -45,12 +42,6 @@ export const UserProfileComponent = ({ data }: UserProfileProps) => {
             {phoneNumber}
           </div>
         )}
-        {/* {user?.role && (
-          <div>
-            <PersonGear className="me-2" />
-            {user.role}
-          </div>
-        )} */}
         {createdAt && (
           <div>
             <Balloon className="me-2" />
