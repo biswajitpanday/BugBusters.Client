@@ -1,18 +1,25 @@
 import { AppRouteConstant } from "@/constant";
 import { useLogin } from "@/lib/Auth";
 import { LoginDto } from "@/types";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Auth.Style.scss";
 import { Button, Spinner } from "react-bootstrap";
 
 export const LoginForm = () => {
+  const [disabled, setDisabled] = useState(true);
   const [loginCredentials, setLoginCredentials] = useState<LoginDto>({
     email: "",
     password: "",
   });
   const login = useLogin();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(loginCredentials.email !== '' &&  loginCredentials.password !== '') 
+      setDisabled(false);
+    else setDisabled(true);
+  }, [loginCredentials.email, loginCredentials.password])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -62,7 +69,7 @@ export const LoginForm = () => {
               type="button"
               className="btn btn-primary"
               onClick={handleSubmit}
-              disabled={login.isLoading}
+              disabled={login.isLoading || disabled}
             >
               Login
             </Button>
