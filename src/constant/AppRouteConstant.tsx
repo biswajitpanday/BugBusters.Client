@@ -4,6 +4,7 @@ export const AppRouteConstant = {
   Login: () => `${AppRouteConstant.Root()}login`,
   Registration: () => `${AppRouteConstant.Root()}signup`,
   UserProfile: () => `${AppRouteConstant.Root()}profile`,
+  UserProfileUpdate: () => `${AppRouteConstant.UserProfile()}/update`,
   Users: () => `${AppRouteConstant.Root()}users`,
   Settings: () => `${AppRouteConstant.Root()}settings`,
   Questions: () => `${AppRouteConstant.Root()}questions`,

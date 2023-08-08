@@ -45,6 +45,15 @@ export type UserProfile = {
     role: keyof typeof Roles;
 } & BaseResponse;
 
+export type ProfileUpdateDto = {
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
+    address?: string;
+    dateOfBirth?: Date;
+    phoneNumber?: string;
+}
+
 export type ProfileStatistic = {
     questionAsked: number;
     answered: number;

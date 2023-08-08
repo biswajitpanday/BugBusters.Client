@@ -28,7 +28,6 @@ const UserProfilePage = () => {
     isFetching,
   } = userProfileQuery;
 
-  //Todo: Profile Edit [FirstName, MiddleName, LastName, DateOfBirth, Address, Bio]
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
       {isLoading ? (
