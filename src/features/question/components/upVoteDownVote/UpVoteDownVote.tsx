@@ -1,4 +1,4 @@
-import { Button, Col, Spinner } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import {
   CaretDown,
   CaretUp,
@@ -7,8 +7,11 @@ import {
 import { VoteCreateDto } from "@/types";
 import { useState } from "react";
 import { useCreateVote } from "../../api/Vote.api";
+import { Spinner } from "@/components/elements/spinner";
 
-type BbTimeAgoProps = {
+type UpVoteDownVoteProps = {
+  upVote: number;
+  downVote: number;
   voteCount: number;
   questionId?: string | null;
   answerId?: string | null;
@@ -17,20 +20,26 @@ type BbTimeAgoProps = {
 };
 
 export const UpVoteDownVote = ({
+  upVote,
+  downVote,
   voteCount,
   questionId = null,
   answerId = null,
   isAccepted = false,
   size = 2,
-}: BbTimeAgoProps) => {
+}: UpVoteDownVoteProps) => {
   const voteQuery = useCreateVote();
   const [voteCreateDto, setVoteCreateDto] = useState<VoteCreateDto>({
     isUpVote: true,
     questionId: null,
     answerId: null,
   });
-  const [totalVoteCount, setTotalVoteCount] = useState<number>(voteCount);
 
+  let absVoteCount = Math.abs(upVote) + Math.abs(downVote);
+  const isUpVote = (upVote - downVote) > 0;
+  const isDownVote = (upVote - downVote) < 0;
+  const [totalVoteCount, setTotalVoteCount] = useState<number>(absVoteCount);
+  
   let res: any;
   const createVote = async (isUpVote: boolean) => {
     if (questionId !== null) {
@@ -72,6 +81,7 @@ export const UpVoteDownVote = ({
             className="rounded-circle pb-2"
             size="sm"
             onClick={() => createVote(true)}
+            active={isUpVote}
           >
             <CaretUp size={16} />
           </Button>
@@ -86,6 +96,7 @@ export const UpVoteDownVote = ({
             className="rounded-circle pb-2"
             size="sm"
             onClick={() => createVote(false)}
+            active={isDownVote}
           >
             <CaretDown size={16} />
           </Button>

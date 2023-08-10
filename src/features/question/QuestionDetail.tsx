@@ -77,7 +77,7 @@ export const QuestionDetail = () => {
     pagedAnswers,
   } = data!;
 
-  const vote = Math.abs(upVoteCount - downVoteCount);
+  const vote = upVoteCount - downVoteCount;
 
   const handleBodyChange = (content: any, editor: any) => {
     setAnswerCreateDto({ ...answerCreateDto, body: content });
@@ -144,7 +144,7 @@ export const QuestionDetail = () => {
         <hr />
 
         <Row className="pt-3 pb-3">
-          <UpVoteDownVote voteCount={vote} questionId={id} />
+          <UpVoteDownVote upVote={upVoteCount} downVote={downVoteCount} voteCount={vote} questionId={id} />
           <Col xs={11}>
             <p className="">{parse(body)}</p>
             <Row>
