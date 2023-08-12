@@ -22,7 +22,7 @@ export type AuthResponseDto = {
     token: string;
     isActivated: boolean;
     role: keyof typeof Roles,
-    profile: UserProfile;
+    profileData: UserProfile;
 };
 
 export type TokenDto = {
@@ -33,12 +33,30 @@ export type TokenDto = {
 }
 
 export type UserProfile = {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    dateOfBirth: Date;
-    phone: string;
-    address: string;
-    accountId: string;
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
+    fullName?: string | undefined;
+    userName: string;
+    email: string;
+    address?: string;
+    dateOfBirth?: Date;
+    phoneNumber?: string;
     role: keyof typeof Roles;
 } & BaseResponse;
+
+export type ProfileUpdateDto = {
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
+    address?: string;
+    dateOfBirth?: Date;
+    phoneNumber?: string;
+}
+
+export type ProfileStatistic = {
+    questionAsked: number;
+    answered: number;
+    upVoteCount: number;
+    downVoteCount: number;
+}
