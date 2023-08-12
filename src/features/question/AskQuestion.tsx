@@ -2,21 +2,29 @@ import { ContentLayout } from "@/components/layout";
 import { Authorization } from "@/lib/Authorization";
 import { QuestionCreateDto, Roles } from "@/types";
 import { TinyMceEditor } from "./components/tinyMce/TinyMce";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useCreateQuestion } from "./api/Question.api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AppRouteConstant } from "@/constant";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
+import { useSearchContext } from "@/providers/SearchContext";
+import { v4 as uuidv4 } from "uuid";
 
 export const AskQuestion = () => {
   const createQuestionQuery = useCreateQuestion();
   const navigate = useNavigate();
+  const { setShowSearchBar } = useSearchContext();
+  const [editorKey, setEditorKey] = useState(uuidv4());
   const [questionCreateData, setQuestionCreateData] =
     useState<QuestionCreateDto>({
       title: "",
       body: "",
     });
+
+  useEffect(() => {
+    setShowSearchBar(false);
+  }, [setShowSearchBar]);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -35,7 +43,12 @@ export const AskQuestion = () => {
     const res = await createQuestionQuery.mutateAsync({
       ...questionCreateData,
     });
-    if (res !== null) navigate(AppRouteConstant.Questions());
+    createQuestionQuery.isLoading && <Spinner />;
+    createQuestionQuery.isIdle && <Spinner />;
+    setEditorKey(uuidv4());
+    if (res?.id !== null) {
+      navigate(AppRouteConstant.Questions());
+    }
   };
   return (
     <Authorization allowedRoles={[Roles.User, Roles.Admin]}>
@@ -54,8 +67,8 @@ export const AskQuestion = () => {
           </div>
         </form>
 
-        <TinyMceEditor onContentChange={handleBodyChange} />
-        
+        <TinyMceEditor key={editorKey} onContentChange={handleBodyChange} />
+
         <Button
           type="button"
           variant="outline-primary"

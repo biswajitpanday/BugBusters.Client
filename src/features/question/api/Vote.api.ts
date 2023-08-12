@@ -5,7 +5,7 @@ import { VoteCreateDto, VoteResponse } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-const voteCreate = async (request: VoteCreateDto) => {
+const voteCreate = async (request: VoteCreateDto) : Promise<VoteResponse[]> => {
   const body = JSON.stringify(request);
   return await axios.post(ApiRouteConstant.Vote.Root(), body);
 }
@@ -35,6 +35,7 @@ export const useCreateVote = () => {
       queryClient.invalidateQueries(voteQueryKey);
       toast("Vote Created Successfully!");
     },
+
     mutationFn: voteCreate,
   });
 };

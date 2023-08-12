@@ -1,4 +1,4 @@
-import { AnswerResponse, BaseResponse, UserProfile } from ".";
+import { AnswerResponse, BaseResponse, PagedResponse, UserProfile } from ".";
 
 export type QuestionResponse = {
     title: string;
@@ -8,7 +8,7 @@ export type QuestionResponse = {
     answerCount: number;
     createdById: string;
     createdBy: UserProfile;
-    answers: AnswerResponse[];
+    pagedAnswers: PagedResponse<AnswerResponse[]>;
     hasAcceptedAnswer: boolean;
 } & BaseResponse;
 

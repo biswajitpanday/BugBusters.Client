@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
 import "./Auth.Style.scss";
 import { Button, Spinner } from "react-bootstrap";
-import { DataNotFound } from "@/features/misc/DataNotFound";
 
 export const RegistrationForm = () => {
   const navigate = useNavigate();

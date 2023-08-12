@@ -1,10 +1,10 @@
 import { Badge } from "react-bootstrap";
 import { BbTimeAgo } from "../bbTimeAgo/BbTimeAgo";
-import Avatar from "react-avatar";
 import { GetRandomDarkColor } from "@/utils/HelperUtil";
 import { UserProfile } from "@/types";
 import { Link } from "react-router-dom";
 import { AppRouteConstant } from "@/constant";
+import Avatar from "react-avatar";
 
 type PostSignatureProps = {
   createdAt: Date;
@@ -46,7 +46,7 @@ export const PostSignature = ({
       >
         {showName && (
           <Link
-            to={`${AppRouteConstant.Users()}/${createdBy.id}`}
+            to={`${AppRouteConstant.Users()}/${createdBy?.id}`}
             className="underline-none small text"
           >
             {createdBy?.fullName === null

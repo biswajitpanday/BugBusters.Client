@@ -10,13 +10,15 @@ export const ApiRouteConstant = {
   },
   Question: {
     Root: () => "question/",
+    //GetPaginated: () => `${ApiRouteConstant.Question.Root()}paginated`,
     GetById: () => `${ApiRouteConstant.Question.Root()}:id`,
     Create: () => `${ApiRouteConstant.Question.Root()}create`,
   },
   User: {
     Root: () => "user/",
     GetById: () => `${ApiRouteConstant.User.Root()}:id`,
-    Profile: () => `${ApiRouteConstant.User.Root()}profile`
+    Profile: () => `${ApiRouteConstant.User.Root()}profile`,
+    ProfileUpdate: () => `${ApiRouteConstant.User.Root()}updateProfile`
   },
   Vote: {
     Root: () => "vote/",

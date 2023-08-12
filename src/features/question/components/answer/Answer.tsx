@@ -27,7 +27,7 @@ export const Answer = ({ data, userId }: AnswerProps) => {
     upVoteCount,
     createdBy,
   } = data;
-  const vote = Math.abs(upVoteCount - downVoteCount);
+  const vote = upVoteCount - downVoteCount;
 
 
   const acceptAnswer = async (id: string) => {
@@ -36,13 +36,12 @@ export const Answer = ({ data, userId }: AnswerProps) => {
       ...answerAcceptDto,
       id,
     });
-    console.log(res);
     // todo: Show realtime update
   };
 
   return (
     <Row className="pt-3 pb-3" key={id}>
-      <UpVoteDownVote voteCount={vote} answerId={id} isAccepted={isAccepted} />
+      <UpVoteDownVote upVote={upVoteCount} downVote={downVoteCount} voteCount={vote} answerId={id} isAccepted={isAccepted} />
       <Col xs={11}>
         <p className="">{parse(body)}</p>
         <Row>
