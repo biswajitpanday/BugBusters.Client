@@ -22,13 +22,17 @@ axios.interceptors.response.use(
   (error: any) => {
     if(error instanceof AxiosError) {
       const {message, response}  = error;
-      toast(message);
+      if (error?.response?.status === 409) {
+        toast("This Operation is already done by you!")
+      }
+      else 
+        toast(message);
     }
     else {
       const message = error.response?.data || error.response?.data?.message || error.message;
       console.log("Axios Error: " + message);
       if (error?.response?.status === 409) {
-        toast("Data Already Exists!")
+        toast("This Operation is already done by you!")
       }
       else {
         toast(message);
