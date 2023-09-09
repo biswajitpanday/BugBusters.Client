@@ -1,6 +1,7 @@
 import { Spinner } from "@/components/elements/spinner";
 import { MainLayout } from "@/components/layout";
 import { AppRouteConstant } from "@/constant";
+import { JiraWorld } from "@/features/JiraWorld";
 import { PageNotFound } from "@/features/misc";
 import UserProfilePage from "@/pages/UserProfilePage";
 import UserProfileUpdatePage from "@/pages/UserProfileUpdatePage";
@@ -29,6 +30,7 @@ export const protectedRoutes = [
     children: [
       { path: AppRouteConstant.Root(), element: <QuestionRoutes /> }, 
       { path: `${AppRouteConstant.Questions()}/*`, element: <QuestionRoutes /> },
+      { path: `${AppRouteConstant.JiraWorld()}/*`, element: <JiraWorld /> },
       { path: `${AppRouteConstant.Users()}/*`, element: <UserRoutes /> },
       { path: `${AppRouteConstant.UserProfile()}`, element: <UserProfilePage /> },
       { path: `${AppRouteConstant.UserProfileUpdate()}`, element: <UserProfileUpdatePage /> },
