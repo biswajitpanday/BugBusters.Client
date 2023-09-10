@@ -9,6 +9,6 @@ export const AppRouteConstant = {
   Settings: () => `${AppRouteConstant.Root()}settings`,
   Questions: () => `${AppRouteConstant.Root()}questions`,
   AskQuestion: () => `${AppRouteConstant.Questions()}/ask-question`,
-  JiraWorld: () => `${AppRouteConstant.Root()}/jira-world`,
+  JiraWorld: () => `${AppRouteConstant.Root()}jira-world`,
   SearchResult: () => `${AppRouteConstant.Root()}search-result`,
 };
