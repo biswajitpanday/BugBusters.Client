@@ -88,7 +88,6 @@ export const JiraWorld = () => {
       extractJson(mellottData.issues),
       mellottData.issues
     );
-    console.log(tree);
     setJData(tree);
   }, []);
 
@@ -129,6 +128,7 @@ export const JiraWorld = () => {
           attributes: {id: item.id, link: item.self, value: item.self}
         });
     });
+    console.log(tree)
     return tree;
   };
 
@@ -174,33 +174,22 @@ export const JiraWorld = () => {
   };
 
   const renderCustomNode = (rd3tNodeProps: CustomNodeElementProps): any => {
-    console.log(rd3tNodeProps);
     return <a href="#">{rd3tNodeProps.nodeDatum.name}</a>;
   };
 
   const RenderRectSvgNode = (props: CustomNodeElementProps) => {
-    //document.querySelector(`${props.nodeDatum.__rd3t.id}`)?.addEventListener("click", () => alert(props.nodeDatum.name));
-    // let id = uuidv4();
-    // console.log(document.getElementById(`#${id}`));
-    // document.getElementById(`#${id}`)?.addEventListener("click", () => alert(props.nodeDatum.name));
-    // document
-    //   .querySelector("g")
-    //   ?.addEventListener("click", () => alert("clicked"));
-    //debugger;
     return (
-      //<g id={props.nodeDatum.__rd3t.id}>
-      //<g id={id}>
-      <g>
+      <g id={''+props.nodeDatum?.attributes?.id} onClick={() => window.open(''+props.nodeDatum?.attributes?.link)}>
         <rect width="20" height="20" x="-10" onClick={props.toggleNode} />
         <text fill="black" strokeWidth="1" x="20">
-          Title: {props.nodeDatum.name}
+          {props.nodeDatum.name}
         </text>
 
-        {props.nodeDatum?.attributes?.id && (
+        {/* {props.nodeDatum?.attributes?.id && (
           <text fill="black" x="20" dy="20" strokeWidth="1">
-            Link: {props.nodeDatum?.attributes?.id}
+            Link: {props.nodeDatum?.attributes?.link}
           </text>
-        )}
+        )} */}
       </g>
     );
   };
