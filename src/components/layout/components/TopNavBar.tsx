@@ -54,9 +54,6 @@ export const TopNavBar = () => {
           <Nav.Link href={AppRouteConstant.AskQuestion()}>
             Ask Question
           </Nav.Link>
-          <Nav.Link href={AppRouteConstant.JiraWorld()}>
-            Jira World
-          </Nav.Link>
         </Nav>
         {showSearchBar && (
           <Form className="d-flex">
