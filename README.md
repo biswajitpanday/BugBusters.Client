@@ -149,7 +149,7 @@ We welcome contributions! Please follow these steps:
 This project is licensed under the MIT License.
 
 ## Contact
-For questions or support, please contact the repository maintainer at biswajitpanday@example.com.
+For questions or support, please contact the repository maintainer at biswajitmailid@gmail.com.
 
 ---
 Thank you for using Bug Busters Client!
