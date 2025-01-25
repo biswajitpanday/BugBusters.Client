@@ -20,23 +20,23 @@ axios.interceptors.response.use(
     return response?.data;
   },
   (error: any) => {
-    if(error instanceof AxiosError) {
-      const {message, response}  = error;
-      if (error?.response?.status === 409) {
-        toast("This Operation is already done by you!")
+    if (error instanceof AxiosError) {
+      const { message, response } = error;
+
+      if (response?.status === 409) {
+        toast("This Operation is already done by you!");
+      } else {
+        const errorMessage =
+          response?.data?.message || message || "An unexpected error occurred.";
+        toast(errorMessage);
       }
-      else 
-        toast(message);
-    }
-    else {
-      const message = error.response?.data || error.response?.data?.message || error.message;
-      console.log("Axios Error: " + message);
-      if (error?.response?.status === 409) {
-        toast("This Operation is already done by you!")
-      }
-      else {
-        toast(message);
-      }
+    } else {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "An unexpected error occurred.";
+      console.log("Non-Axios Error: " + errorMessage);
+      toast(errorMessage);
     }
     return Promise.reject(error);
   }
